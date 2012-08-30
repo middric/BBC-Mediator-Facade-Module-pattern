@@ -35,7 +35,14 @@ define(['require', './class'], function (require, Class) {
 
         ready: function (Module) {
             var name = Module.toString().match(/^function (\w+)/)[1],
-                moduleInstance, signal, method;
+                listener = function (listenerMethod, signalObject) {
+                    var args = Array.prototype.slice.call(arguments, 2);
+                    this[listenerMethod].apply(this, args);
+
+                    // Stop non-mediator code hijacking this event
+                    moduleInstance.signals[signalObject].halt();
+                },
+                moduleInstance, signal, method, binding;
 
             if (name) {
                 moduleInstance = new Module(this.config[name]);
@@ -46,12 +53,8 @@ define(['require', './class'], function (require, Class) {
                     if (moduleInstance.signals.hasOwnProperty(signal)) {
                         method = 'on' + name + signal;
                         if (this[method] && typeof this[method] === 'function') {
-                            moduleInstance.signals[signal].add(function () {
-                                this[method].apply(this, arguments);
-
-                                // Stop non-mediator code hijacking this event
-                                moduleInstance.signals[signal].halt();
-                            }, this);
+                            binding = moduleInstance.signals[signal].add(listener, this);
+                            binding.params = [method, signal];
                         } else {
                             if (this.config.debug) {
                                 console.warn('Module signal has no corresponding listener method.', name, signal, method);
