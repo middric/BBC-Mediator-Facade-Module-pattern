@@ -37,10 +37,11 @@ define(['require', './class'], function (require, Class) {
             var name = Module.toString().match(/^function (\w+)/)[1],
                 listener = function (listenerMethod, signalObject) {
                     var args = Array.prototype.slice.call(arguments, 2);
+                    // Call mediator listener with original arguments
                     this[listenerMethod].apply(this, args);
 
                     // Stop non-mediator code hijacking this event
-                    moduleInstance.signals[signalObject].halt();
+                    signalObject.halt();
                 },
                 moduleInstance, signal, method, binding;
 
@@ -53,8 +54,9 @@ define(['require', './class'], function (require, Class) {
                     if (moduleInstance.signals.hasOwnProperty(signal)) {
                         method = 'on' + name + signal;
                         if (this[method] && typeof this[method] === 'function') {
+                            // Set priority to Infinity so that the mediator listeners execute first
                             binding = moduleInstance.signals[signal].add(listener, this, Infinity);
-                            binding.params = [method, signal];
+                            binding.params = [method, moduleInstance.signals[signal]];
                         } else {
                             if (this.config.debug) {
                                 console.warn('Module signal has no corresponding listener method.', name, signal, method);
