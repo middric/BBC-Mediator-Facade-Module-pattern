@@ -1,0 +1,12 @@
+{
+    "debug": true,
+    "numPages": 3,
+    "showcaseType": "carouselModule",
+
+    "Filters": {
+        "paginators": ["left", "right"]
+    },
+    "Carousel": {
+        "containerID": "showcaseContainer"
+    }
+}
