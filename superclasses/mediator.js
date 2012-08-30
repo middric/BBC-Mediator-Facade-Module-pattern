@@ -53,7 +53,7 @@ define(['require', './class'], function (require, Class) {
                     if (moduleInstance.signals.hasOwnProperty(signal)) {
                         method = 'on' + name + signal;
                         if (this[method] && typeof this[method] === 'function') {
-                            binding = moduleInstance.signals[signal].add(listener, this);
+                            binding = moduleInstance.signals[signal].add(listener, this, Infinity);
                             binding.params = [method, signal];
                         } else {
                             if (this.config.debug) {
