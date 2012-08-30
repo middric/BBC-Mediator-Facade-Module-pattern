@@ -26,10 +26,6 @@ define(['jquery', 'signals'], function ($, Signal) {
             teardown: function () {
                 var i;
                 $('#' + params.paginators.join(', #')).off('click.filters');
-                // Remove signal listeners
-                for (i = this.signals.length - 1; i >= 0; i--) {
-                    this.signals[i].dispose();
-                }
             },
             signals: {
                 Clicked: new Signal()

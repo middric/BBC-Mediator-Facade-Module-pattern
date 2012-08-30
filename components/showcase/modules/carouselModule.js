@@ -40,10 +40,6 @@ define(['jquery', 'signals'], function ($, Signal) {
                 }
             },
             teardown: function () {
-                // Remove signal listeners
-                for (var i = this.signals.length - 1; i >= 0; i--) {
-                    this.signals[i].removeAll();
-                }
             },
             signals: {
                 Moved: new Signal()
