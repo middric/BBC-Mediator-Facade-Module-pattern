@@ -15,7 +15,8 @@ define(['require', './class'], function (require, Class) {
         modules: {},
 
         init: function (settings) {
-            var key, i;
+            var i = this.moduleConstructors.length - 1,
+                key;
 
             // Merge settings and default config
             for (key in settings) {
@@ -24,15 +25,27 @@ define(['require', './class'], function (require, Class) {
                 }
             }
 
-            for (i = this.moduleConstructors.length - 1; i >= 0; i--) {
+            // Run module constructors
+            for (; i >= 0; i--) {
                 this.ready(this.moduleConstructors[i]);
             }
         },
 
+        /**
+         * Add module constructor to the list of modules
+         * @param {Function} Module A module constructor
+         */
         addModule: function (Module) {
             this.moduleConstructors.push(Module);
         },
 
+        /**
+         * Run after a module dependecy has loaded. Runs the module
+         * constructor, passes through config overrides, and maps module
+         * signals to mediator listeners.
+         *
+         * @param  {Function} Module Module constructor
+         */
         ready: function (Module) {
             var name = Module.toString().match(/^function (\w+)/)[1],
                 listener = function (listenerMethod, signalObject) {
@@ -40,15 +53,16 @@ define(['require', './class'], function (require, Class) {
                     // Call mediator listener with original arguments
                     this[listenerMethod].apply(this, args);
 
-                    // Stop non-mediator code hijacking this event
+                    // Stop event propogation in order to enforce the mediator/facade/module pattern
                     signalObject.halt();
                 },
                 moduleInstance, signal, method, binding;
 
             if (name) {
-                moduleInstance = new Module(this.config[name]);
+                moduleInstance = new (new Module(this.config[name]));
                 moduleInstance.setup();
                 this.modules[name] = moduleInstance;
+
                 // Set up signals
                 for (signal in moduleInstance.signals) {
                     if (moduleInstance.signals.hasOwnProperty(signal)) {
@@ -71,6 +85,9 @@ define(['require', './class'], function (require, Class) {
             }
         },
         
+        /**
+         * Tear down the mediator and associated modules
+         */
         teardown: function () {
             var i;
             // Destroy each facade in turn
