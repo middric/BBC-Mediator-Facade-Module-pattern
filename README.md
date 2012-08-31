@@ -15,3 +15,5 @@
     *  Conceptually similar to JavaScript
 *  Minimized require dependencies
 *  Minimized race condition gaps
+
+![Structure diagram](https://raw.github.com/middric/BBC-Mediator-Facade-Module-pattern/master/structure_diagram.png)
