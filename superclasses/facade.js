@@ -1,10 +1,10 @@
 define(['require', './class'], function (require, Class) {
-    var Module = Class.extend({
+    var Facade = Class.extend({
         init: function() {},
         setup: function () {},
         teardown: function () {},
         signals: []
     });
 
-    return Module;
+    return Facade;
 });

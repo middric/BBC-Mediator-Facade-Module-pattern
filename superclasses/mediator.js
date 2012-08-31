@@ -40,7 +40,7 @@ define(['require', './class'], function (require, Class) {
         },
 
         /**
-         * Run after a module dependecy has loaded. Runs the module
+         * Run after a module dependency has loaded. Runs the module
          * constructor, passes through config overrides, and maps module
          * signals to mediator listeners.
          *
@@ -59,8 +59,7 @@ define(['require', './class'], function (require, Class) {
                 moduleInstance, signal, method, binding;
 
             if (name) {
-                moduleInstance = new (new Module(this.config[name]));
-                moduleInstance.setup();
+                moduleInstance = new (new Module(this.config[name]))();
                 this.modules[name] = moduleInstance;
 
                 // Set up signals

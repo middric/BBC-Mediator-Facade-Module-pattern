@@ -1,4 +1,4 @@
-define(['jquery', 'signals', 'superclasses/module'], function ($, Signal, Module) {
+define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
     return function Carousel(settings) {
         var params = {
                 currentPos: 0,
@@ -26,27 +26,28 @@ define(['jquery', 'signals', 'superclasses/module'], function ($, Signal, Module
                         }
                     });
                 }
-            },
-            facade = Module.extend({
-                setup: function () {
-                    var key;
+            };
+            
+        return Facade.extend({
+            init: function () {
+                var key;
 
-                    // Merge settings and default config
-                    for (key in settings) {
-                        if (settings.hasOwnProperty(key)) {
-                            params[key] = settings[key];
-                        }
+                // Merge settings and default config
+                for (key in settings) {
+                    if (settings.hasOwnProperty(key)) {
+                        params[key] = settings[key];
                     }
-                },
-                move: function (dir) {
-                    var that = this;
-                    methods.moveBy(dir, '#' + params.containerID, function () { that.signals.Moved.dispatch(params.currentPos); });
-                },
-                signals: {
-                    Moved: new Signal()
                 }
-            });
 
-        return facade;
+                this._super();
+            },
+            move: function (dir) {
+                var that = this;
+                methods.moveBy(dir, '#' + params.containerID, function () { that.signals.Moved.dispatch(params.currentPos); });
+            },
+            signals: {
+                Moved: new Signal()
+            }
+        });
     };
 });
