@@ -43,10 +43,20 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             },
             move: function (dir) {
                 var that = this;
-                methods.moveBy(dir, '#' + params.containerID, function () { that.signals.Moved.dispatch(params.currentPos); });
+                methods.moveBy(dir, '#' + params.containerID, function () {
+                    if (params.currentPos === 0) {
+                        that.signals.AtStart.dispatch(params.currentPos);
+                    } else if (params.currentPos >= ((params.numPages - 1) * params.pageWidth)) {
+                        that.signals.AtEnd.dispatch(params.currentPos);
+                    } else {
+                        that.signals.Moved.dispatch(params.currentPos);
+                    }
+                });
             },
             signals: {
-                Moved: new Signal()
+                Moved: new Signal(),
+                AtStart: new Signal(),
+                AtEnd: new Signal()
             }
         });
     };

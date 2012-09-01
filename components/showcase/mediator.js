@@ -14,6 +14,8 @@ define(['require', 'json!./config.json', 'superclasses/mediator', './modules/pag
                 that.addModule(module);
                 that.ready(module);
             });
+
+            this.modules.Pagination.updatePosition('start');
         },
 
         onPaginationClicked: function (dir) {
@@ -25,6 +27,18 @@ define(['require', 'json!./config.json', 'superclasses/mediator', './modules/pag
         onCarouselMoved: function (position) {
             if (this.modules.Pagination) {
                 this.modules.Pagination.updatePosition(position);
+            }
+        },
+
+        onCarouselAtStart: function () {
+            if (this.modules.Pagination) {
+                this.modules.Pagination.updatePosition('start');
+            }
+        },
+
+        onCarouselAtEnd: function () {
+            if (this.modules.Pagination) {
+                this.modules.Pagination.updatePosition('end');
             }
         }
     });

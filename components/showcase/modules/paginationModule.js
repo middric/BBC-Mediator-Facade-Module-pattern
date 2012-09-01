@@ -3,8 +3,16 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
         var params = {},
             methods = {
                 setPage: function (currentPosition) {
-                    if (currentPosition === 0) {
-                        $('#' + params.paginators[0]).css('color', '#ccc');
+                    switch (currentPosition) {
+                    case 'start':
+                        params.paginators.left.enabled = false;
+                        break;
+                    case 'end':
+                        params.paginators.right.enabled = false;
+                        break;
+                    default:
+                        params.paginators.left.enabled = true;
+                        params.paginators.right.enabled = true;
                     }
                 }
             };
@@ -34,7 +42,17 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 this._super();
             },
             updatePosition: function (position) {
+                var key;
                 methods.setPage(position);
+                for (key in params.paginators) {
+                    if (params.paginators.hasOwnProperty(key)) {
+                        if (!params.paginators[key].enabled) {
+                            $(params.paginators[key].selector).addClass('disabled');
+                        } else {
+                            $(params.paginators[key].selector).removeClass('disabled');
+                        }
+                    }
+                }
             },
 
             signals: {
