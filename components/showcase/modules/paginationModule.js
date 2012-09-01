@@ -21,7 +21,9 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     }
                 }
 
-                $('#' + params.paginators.join(', #')).on('click.filters', function () { that.signals.Clicked.dispatch(this.id); });
+                $(params.paginators.left.selector + ', ' + params.paginators.right.selector).on('click.filters', function () {
+                    that.signals.Clicked.dispatch(this.id);
+                });
 
                 this._super();
             },

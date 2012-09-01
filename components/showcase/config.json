@@ -4,7 +4,16 @@
     "showcaseType": "carouselModule",
 
     "Pagination": {
-        "paginators": ["left", "right"]
+        "paginators": {
+        	"left": {
+        		"selector": "#left",
+        		"enabled": false
+        	},
+        	"right": {
+        		"selector": "#right",
+        		"enabled": true
+        	}
+        }
     },
     "Carousel": {
         "containerID": "showcaseContainer"
