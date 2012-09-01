@@ -1,6 +1,5 @@
 {
     "debug": true,
-    "numPages": 3,
     "showcaseType": "carouselModule",
 
     "Pagination": {
@@ -16,6 +15,7 @@
         }
     },
     "Carousel": {
+    	"numPages": 3,
         "containerID": "showcaseContainer"
     }
 }
