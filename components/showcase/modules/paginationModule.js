@@ -2,17 +2,12 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
     return function Pagination(settings) {
         var params = {},
             methods = {
-                setPage: function (currentPosition) {
-                    switch (currentPosition) {
-                    case 'start':
-                        params.paginators.left.enabled = false;
-                        break;
-                    case 'end':
-                        params.paginators.right.enabled = false;
-                        break;
-                    default:
-                        params.paginators.left.enabled = true;
-                        params.paginators.right.enabled = true;
+                setPage: function (currentPosition, callback) {
+                    params.paginators.left.enabled = (currentPosition === 'start') ? false : true;
+                    params.paginators.right.enabled = (currentPosition === 'end') ? false : true;
+
+                    if (typeof callback === 'function') {
+                        callback();
                     }
                 }
             };
@@ -35,23 +30,22 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 this._super();
             },
             teardown: function () {
-                var i;
                 $('#' + params.paginators.join(', #')).off('click.filters');
 
                 this._super();
             },
             updatePosition: function (position) {
-                var key;
-                methods.setPage(position);
-                for (key in params.paginators) {
-                    if (params.paginators.hasOwnProperty(key)) {
-                        if (!params.paginators[key].enabled) {
-                            $(params.paginators[key].selector).addClass('disabled');
-                        } else {
-                            $(params.paginators[key].selector).removeClass('disabled');
+                methods.setPage(position, function () {
+                    var key, selector;
+                    for (key in params.paginators) {
+                        if (params.paginators.hasOwnProperty(key)) {
+                            selector = $(params.paginators[key].selector).removeClass('disabled');
+                            if (!params.paginators[key].enabled) {
+                                selector.addClass('disabled');
+                            }
                         }
                     }
-                }
+                });
             },
 
             signals: {

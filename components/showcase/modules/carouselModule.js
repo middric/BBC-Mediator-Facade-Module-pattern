@@ -5,8 +5,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 pageWidth: 600
             },
             methods = {
-                moveBy: function (dir, el, callback) {
-                    var px;
+                moveBy: function (dir, callback) {
+                    var px, newPos;
                     switch (dir) {
                     case 'right':
                         px = params.pageWidth;
@@ -18,13 +18,18 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                         px = 0;
                     }
 
-                    $(el).animate({scrollLeft: params.currentPos + px}, function () {
-                        params.currentPos += px;
+                    newPos = params.currentPos + px;
 
-                        if (callback && typeof callback === 'function') {
-                            callback();
-                        }
-                    });
+                    // Dont do anything if at beginning or end
+                    if (newPos < 0 || newPos > (params.numPages - 1) * params.pageWidth) {
+                        newPos = params.currentPos;
+                    }
+
+                    params.currentPos = newPos;
+
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
                 }
             };
             
@@ -43,14 +48,16 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             },
             move: function (dir) {
                 var that = this;
-                methods.moveBy(dir, '#' + params.containerID, function () {
-                    if (params.currentPos === 0) {
-                        that.signals.AtStart.dispatch(params.currentPos);
-                    } else if (params.currentPos >= ((params.numPages - 1) * params.pageWidth)) {
-                        that.signals.AtEnd.dispatch(params.currentPos);
-                    } else {
-                        that.signals.Moved.dispatch(params.currentPos);
-                    }
+                methods.moveBy(dir, function () {
+                    $('#' + params.containerID).animate({scrollLeft: params.currentPos}, function () {
+                        if (params.currentPos === 0) {
+                            that.signals.AtStart.dispatch(params.currentPos);
+                        } else if (params.currentPos >= ((params.numPages - 1) * params.pageWidth)) {
+                            that.signals.AtEnd.dispatch(params.currentPos);
+                        } else {
+                            that.signals.Moved.dispatch(params.currentPos);
+                        }
+                    });
                 });
             },
             signals: {
