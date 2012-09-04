@@ -17,7 +17,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                     // Dont do anything if at start or end
                     if (newPos < 0 || newPos > (params.numPages - 1) * params.pageWidth) {
-                        newPos = params.currentPos;
+                        return;
                     }
 
                     params.currentPos = newPos;
