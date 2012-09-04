@@ -6,19 +6,16 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             },
             methods = {
                 moveBy: function (dir, callback) {
-                    var px, newPos;
-                    switch (dir) {
-                    case 'right':
+                    var px = 0,
+                        newPos = params.currentPos;
+
+                    if (dir === 'right') {
                         px = params.pageWidth;
-                        break;
-                    case 'left':
+                    } else if (dir === 'left') {
                         px = -params.pageWidth;
-                        break;
-                    default:
-                        px = 0;
                     }
 
-                    newPos = params.currentPos + px;
+                    newPos += px;
 
                     // Dont do anything if at beginning or end
                     if (newPos < 0 || newPos > (params.numPages - 1) * params.pageWidth) {
