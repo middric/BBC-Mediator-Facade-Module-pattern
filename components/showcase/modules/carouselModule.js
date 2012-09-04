@@ -2,19 +2,20 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
     return function Carousel(settings) {
         var params = {},
             methods = {
-                moveBy: function (dir, callback) {
-                    var px = 0,
-                        newPos = params.currentPos;
-
-                    if (dir === 'right') {
-                        px = params.pageWidth;
-                    } else if (dir === 'left') {
-                        px = -params.pageWidth;
+                moveInDirection: function (dir, callback) {
+                    var px = 0;
+                    if (dir !== 'right' && dir !== 'left') {
+                        return;
                     }
+                    px = (dir === 'right') ? params.pageWidth : -params.pageWidth;
 
-                    newPos += px;
+                    methods.moveByPx(px, callback);
+                },
 
-                    // Dont do anything if at beginning or end
+                moveByPx: function (px, callback) {
+                    var newPos = params.currentPos + px;
+
+                    // Dont do anything if at start or end
                     if (newPos < 0 || newPos > (params.numPages - 1) * params.pageWidth) {
                         newPos = params.currentPos;
                     }
@@ -42,7 +43,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             },
             move: function (dir) {
                 var that = this;
-                methods.moveBy(dir, function () {
+                methods.moveInDirection(dir, function () {
                     $('#' + params.containerID).animate({scrollLeft: params.currentPos}, function () {
                         if (params.currentPos === 0) {
                             that.signals.AtStart.dispatch(params.currentPos);
