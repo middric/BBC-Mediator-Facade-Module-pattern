@@ -1,9 +1,6 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
     return function Carousel(settings) {
-        var params = {
-                currentPos: 0,
-                pageWidth: 600
-            },
+        var params = {},
             methods = {
                 moveBy: function (dir, callback) {
                     var px = 0,
