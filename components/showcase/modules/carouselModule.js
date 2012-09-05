@@ -25,6 +25,12 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     methods.performMove(callback);
                 },
 
+                moveToFilter: function (index, callback) {
+                    params.currentPos = (params.numPages / params.numFilters) * (index) * params.pageWidth;
+
+                    methods.performMove(callback);
+                },
+
                 performMove: function (callback) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
 
@@ -45,18 +51,24 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            move: function (dir) {
+            moveInDirection: function (dir) {
                 var that = this;
-                methods.moveInDirection(dir, function () {
-                    var signal = that.signals.Moved;
-                    if (params.currentPos <= 0) {
-                        signal = that.signals.AtStart;
-                    } else if (params.currentPos >= ((params.numPages - 1) * params.pageWidth)) {
-                        signal = that.signals.AtEnd;
-                    }
-                    signal.dispatch(params.currentPos);
-                });
+                methods.moveInDirection(dir, function () { that.moveComplete(); });
             },
+            moveToFilter: function (index) {
+                var that = this;
+                methods.moveToFilter(index, function () { that.moveComplete(); });
+            },
+            moveComplete: function () {
+                var signal = this.signals.Moved;
+                if (params.currentPos <= 0) {
+                    signal = this.signals.AtStart;
+                } else if (params.currentPos >= ((params.numPages - 1) * params.pageWidth)) {
+                    signal = this.signals.AtEnd;
+                }
+                signal.dispatch(params.currentPos);
+            },
+
             signals: {
                 Moved: new Signal(),
                 AtStart: new Signal(),

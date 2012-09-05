@@ -40,6 +40,15 @@ define(['require', 'superclasses/class'], function (require, Class) {
         },
 
         /**
+         * Add an arbitrary number of modules
+         */
+        addModules: function () {
+            for (var i = arguments.length - 1; i >= 0; i--) {
+                this.addModule(arguments[i]);
+            }
+        },
+
+        /**
          * Run after a module dependency has loaded. Runs the module
          * constructor, passes through config overrides, and maps module
          * signals to mediator listeners.

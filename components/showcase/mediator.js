@@ -1,11 +1,17 @@
-define(['require', 'json!./config.json', 'superclasses/mediator', './modules/paginationModule'], function (require, config, Mediator, Pagination) {
+define([
+    'require',
+    'json!./config.json',
+    'superclasses/mediator',
+    './modules/paginationModule',
+    './modules/filtersModule'
+], function (require, config, Mediator, Pagination, Filters) {
     var mediator = Mediator.extend({
 
         config: config,
 
         init: function (settings) {
             var that = this, key;
-            this.addModule(Pagination);
+            this.addModules(Pagination, Filters);
 
             this._super(settings);
 
@@ -18,9 +24,15 @@ define(['require', 'json!./config.json', 'superclasses/mediator', './modules/pag
             this.modules.Pagination.updatePosition('start');
         },
 
+        onFiltersClicked: function (index) {
+            if (this.modules.Carousel) {
+                this.modules.Carousel.moveToFilter(index);
+            }
+        },
+
         onPaginationClicked: function (dir) {
             if (this.modules.Carousel) {
-                this.modules.Carousel.move(dir);
+                this.modules.Carousel.moveInDirection(dir);
             }
         },
 

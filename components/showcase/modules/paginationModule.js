@@ -5,11 +5,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 attachListeners: function (callback) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
 
-                    $(params.paginators.left.selector + ', ' + params.paginators.right.selector).on('click.filters', callback);
+                    $(params.paginators.left.selector + ', ' + params.paginators.right.selector).on('click.pagination', callback);
                 },
 
                 detachListeners: function () {
-                    $(params.paginators.left.selector + ', ' + params.paginators.right.selector).off('click.filters');
+                    $(params.paginators.left.selector + ', ' + params.paginators.right.selector).off('click.pagination');
                 },
 
                 setPage: function (currentPosition, callback) {
