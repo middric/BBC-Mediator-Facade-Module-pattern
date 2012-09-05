@@ -15,16 +15,20 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 moveByPx: function (px, callback) {
                     var newPos = params.currentPos + px;
 
-                    // Dont do anything if at start or end
+                    // Dont do anything if new position is beyond start or end
                     if (newPos < 0 || newPos > (params.numPages - 1) * params.pageWidth) {
                         return;
                     }
 
                     params.currentPos = newPos;
 
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
+                    methods.performMove(callback);
+                },
+
+                performMove: function (callback) {
+                    callback = (typeof callback !== 'function') ? function () {} : callback;
+
+                    $('#' + params.containerID).animate({scrollLeft: params.currentPos}, callback);
                 }
             };
             
@@ -44,15 +48,13 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             move: function (dir) {
                 var that = this;
                 methods.moveInDirection(dir, function () {
-                    $('#' + params.containerID).animate({scrollLeft: params.currentPos}, function () {
-                        if (params.currentPos === 0) {
-                            that.signals.AtStart.dispatch(params.currentPos);
-                        } else if (params.currentPos >= ((params.numPages - 1) * params.pageWidth)) {
-                            that.signals.AtEnd.dispatch(params.currentPos);
-                        } else {
-                            that.signals.Moved.dispatch(params.currentPos);
-                        }
-                    });
+                    if (params.currentPos === 0) {
+                        that.signals.AtStart.dispatch(params.currentPos);
+                    } else if (params.currentPos >= ((params.numPages - 1) * params.pageWidth)) {
+                        that.signals.AtEnd.dispatch(params.currentPos);
+                    } else {
+                        that.signals.Moved.dispatch(params.currentPos);
+                    }
                 });
             },
             signals: {
