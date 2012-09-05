@@ -48,13 +48,13 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             move: function (dir) {
                 var that = this;
                 methods.moveInDirection(dir, function () {
-                    if (params.currentPos === 0) {
-                        that.signals.AtStart.dispatch(params.currentPos);
+                    var signal = that.signals.Moved;
+                    if (params.currentPos <= 0) {
+                        signal = that.signals.AtStart;
                     } else if (params.currentPos >= ((params.numPages - 1) * params.pageWidth)) {
-                        that.signals.AtEnd.dispatch(params.currentPos);
-                    } else {
-                        that.signals.Moved.dispatch(params.currentPos);
+                        signal = that.signals.AtEnd;
                     }
+                    signal.dispatch(params.currentPos);
                 });
             },
             signals: {
