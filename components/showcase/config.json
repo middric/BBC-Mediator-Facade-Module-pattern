@@ -1,6 +1,11 @@
 {
-    "debug": true,
-    "showcaseType": "carouselModule",
+    "Mediator": {
+        "debug": true,
+        "showcaseType": "carouselModule",
+        "numFilters": 2,
+        "numPages": 6,
+        "pageWidth": 600
+    },
 
     "Pagination": {
         "paginators": {
@@ -12,16 +17,15 @@
         		"selector": "#right",
         		"enabled": true
         	}
-        }
+        },
+        "currentPage": 0
     },
     "Carousel": {
-        "numFilters": 2,
-        "numPages": 6,
         "containerID": "showcaseContainer",
-        "currentPos": 0,
-        "pageWidth": 600
+        "currentPos": 0
     },
     "Filters": {
-        "containerID": "filtersContainer"
+        "containerID": "filtersContainer",
+        "currentFilter": 0
     }
 }

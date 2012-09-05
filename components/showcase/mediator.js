@@ -16,12 +16,12 @@ define([
             this._super(settings);
 
             // Load any variable dependencies
-            require(['./modules/' + this.config.showcaseType], function (module) {
+            require(['./modules/' + this.config.Mediator.showcaseType], function (module) {
                 that.addModule(module);
                 that.ready(module);
             });
 
-            this.modules.Pagination.updatePosition('start');
+            this.modules.Pagination.updatePosition(0, 0);
         },
 
         onFiltersClicked: function (index) {
@@ -36,22 +36,12 @@ define([
             }
         },
 
-        onCarouselMoved: function (position) {
-            if (this.modules.Pagination) {
-                this.modules.Pagination.updatePosition(position);
-            }
+        onCarouselMoved: function (newPosition, oldPosition) {
+            this.modules.Pagination.updatePosition(newPosition, oldPosition);
         },
 
-        onCarouselAtStart: function () {
-            if (this.modules.Pagination) {
-                this.modules.Pagination.updatePosition('start');
-            }
-        },
-
-        onCarouselAtEnd: function () {
-            if (this.modules.Pagination) {
-                this.modules.Pagination.updatePosition('end');
-            }
+        onCarouselMovedToFilter: function (index) {
+            this.modules.Pagination.updateToFilter(index);
         }
     });
 

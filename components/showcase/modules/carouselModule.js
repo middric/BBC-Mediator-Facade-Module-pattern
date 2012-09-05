@@ -1,5 +1,5 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
-    return function Carousel(settings) {
+    return function Carousel(settings, mediatorConfig) {
         var params = {},
             methods = {
                 moveInDirection: function (dir, callback) {
@@ -7,7 +7,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     if (dir !== 'right' && dir !== 'left') {
                         return;
                     }
-                    px = (dir === 'right') ? params.pageWidth : -params.pageWidth;
+                    px = (dir === 'right') ? mediatorConfig.pageWidth : -mediatorConfig.pageWidth;
 
                     methods.moveByPx(px, callback);
                 },
@@ -16,17 +16,19 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     var newPos = params.currentPos + px;
 
                     // Dont do anything if new position is beyond start or end
-                    if (newPos < 0 || newPos > (params.numPages - 1) * params.pageWidth) {
+                    if (newPos < 0 || newPos > (mediatorConfig.numPages - 1) * mediatorConfig.pageWidth) {
                         return;
                     }
 
+                    params.oldPos = params.currentPos;
                     params.currentPos = newPos;
 
                     methods.performMove(callback);
                 },
 
                 moveToFilter: function (index, callback) {
-                    params.currentPos = (params.numPages / params.numFilters) * (index) * params.pageWidth;
+                    params.oldPos = params.currentPos;
+                    params.currentPos = (mediatorConfig.numPages / mediatorConfig.numFilters) * (index) * mediatorConfig.pageWidth;
 
                     methods.performMove(callback);
                 },
@@ -53,26 +55,20 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             },
             moveInDirection: function (dir) {
                 var that = this;
-                methods.moveInDirection(dir, function () { that.moveComplete(); });
+                methods.moveInDirection(dir, function () {
+                    that.signals.Moved.dispatch(params.currentPos, params.oldPos);
+                });
             },
             moveToFilter: function (index) {
                 var that = this;
-                methods.moveToFilter(index, function () { that.moveComplete(); });
-            },
-            moveComplete: function () {
-                var signal = this.signals.Moved;
-                if (params.currentPos <= 0) {
-                    signal = this.signals.AtStart;
-                } else if (params.currentPos >= ((params.numPages - 1) * params.pageWidth)) {
-                    signal = this.signals.AtEnd;
-                }
-                signal.dispatch(params.currentPos);
+                methods.moveToFilter(index, function () {
+                    that.signals.MovedToFilter.dispatch(index);
+                });
             },
 
             signals: {
-                Moved: new Signal(),
-                AtStart: new Signal(),
-                AtEnd: new Signal()
+                MovedToFilter: new Signal(),
+                Moved: new Signal()
             }
         });
     };

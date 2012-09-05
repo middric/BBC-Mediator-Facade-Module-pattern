@@ -1,6 +1,8 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
-    return function Pagination(settings) {
-        var params = {},
+    return function Pagination(settings, mediatorConfig) {
+        var params = {
+            page: 0
+        },
             methods = {
                 attachListeners: function (callback) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
@@ -12,11 +14,27 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     $(params.paginators.left.selector + ', ' + params.paginators.right.selector).off('click.pagination');
                 },
 
-                setPage: function (currentPosition, callback) {
-                    params.paginators.left.enabled = (currentPosition === 'start') ? false : true;
-                    params.paginators.right.enabled = (currentPosition === 'end') ? false : true;
+                setPageByFilter: function (index) {
+                    params.page = (index * (mediatorConfig.numPages / mediatorConfig.numFilters));
 
+                    methods.setPaginatorStatus();
                     methods.performPaginatorUpdate();
+                },
+
+                setPaginators: function (newPosition, oldPosition) {
+                    if (newPosition > oldPosition) {
+                        params.page++;
+                    } else if (newPosition < oldPosition) {
+                        params.page--;
+                    }
+
+                    methods.setPaginatorStatus();
+                    methods.performPaginatorUpdate();
+                },
+
+                setPaginatorStatus: function () {
+                    params.paginators.left.enabled = (params.page === 0) ? false : true;
+                    params.paginators.right.enabled = (params.page >= (mediatorConfig.numPages - 1)) ? false : true;
                 },
 
                 performPaginatorUpdate: function () {
@@ -55,8 +73,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            updatePosition: function (position) {
-                methods.setPage(position);
+            updatePosition: function (newPosition, oldPosition) {
+                methods.setPaginators(newPosition, oldPosition);
+            },
+            updateToFilter: function (filterIndex) {
+                methods.setPageByFilter(filterIndex);
             },
 
             signals: {

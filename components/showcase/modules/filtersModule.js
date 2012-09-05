@@ -1,9 +1,9 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
-    return function Filters(settings) {
+    return function Filters(settings, mediatorConfig) {
         var params = {},
             methods = {
                 attachListeners: function (callback) {
-                    $('#' + params.containerID + ' li').on('click.filters', function (e) {
+                    methods.getFilters().on('click.filters', function (e) {
                         methods.setFilter($(this).index(), callback);
 
                         e.preventDefault();
@@ -11,15 +11,31 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 },
 
                 detachListeners: function () {
-                    $('#' + params.containerID + ' li').off('click.filters');
+                    methods.getFilters().off('click.filters');
                 },
 
                 setFilter: function (index, callback) {
                     params.currentFilter = index;
 
+                    methods.performFilterUpdate();
+
                     if (typeof callback === 'function') {
                         callback();
                     }
+                },
+
+                performFilterUpdate: function () {
+                    methods.getFilters()
+                        .removeClass('selected')
+                        .eq(params.currentFilter)
+                        .addClass('selected');
+                },
+
+                getFilters: function () {
+                    if (!params._filters) {
+                        params._filters = $('#' + params.containerID + ' li');
+                    }
+                    return params._filters;
                 }
             };
 
@@ -45,6 +61,10 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 methods.detachListeners();
 
                 this._super();
+            },
+
+            updatePosition: function () {
+
             },
 
             signals: {

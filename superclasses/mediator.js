@@ -21,10 +21,10 @@ define(['require', 'superclasses/class'], function (require, Class) {
             // Merge settings and default config
             for (key in settings) {
                 if (settings.hasOwnProperty(key)) {
-                    this.config[key] = settings[key];
+                    this.config.Mediator[key] = settings[key];
                 }
             }
-
+            
             // Run module constructors
             for (; i >= 0; i--) {
                 this.ready(this.moduleConstructors[i]);
@@ -68,7 +68,7 @@ define(['require', 'superclasses/class'], function (require, Class) {
                 moduleInstance, signal, method, binding;
 
             if (name) {
-                moduleInstance = new (new Module(this.config[name]))();
+                moduleInstance = new (new Module(this.config[name], this.config.Mediator))();
                 this.modules[name] = moduleInstance;
 
                 // Set up signals
