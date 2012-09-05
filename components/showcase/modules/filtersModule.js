@@ -3,8 +3,10 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
         var params = {},
             methods = {
                 attachListeners: function (callback) {
-                    $('#' + params.containerID + ' li').on('click.filters', function () {
+                    $('#' + params.containerID + ' li').on('click.filters', function (e) {
                         methods.setFilter($(this).index(), callback);
+
+                        e.preventDefault();
                     });
                 },
 
@@ -33,9 +35,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     }
                 }
 
-                methods.attachListeners(function (e) {
+                methods.attachListeners(function () {
                     that.signals.Clicked.dispatch(params.currentFilter);
-                    e.preventDefault();
                 });
 
                 this._super();
