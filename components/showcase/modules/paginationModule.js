@@ -18,10 +18,9 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     params.page = (index * (mediatorConfig.numPages / mediatorConfig.numFilters));
 
                     methods.setPaginatorStatus();
-                    methods.performPaginatorUpdate();
                 },
 
-                setPaginators: function (newPosition, oldPosition) {
+                setPageByPosition: function (newPosition, oldPosition) {
                     if (newPosition > oldPosition) {
                         params.page++;
                     } else if (newPosition < oldPosition) {
@@ -29,12 +28,13 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     }
 
                     methods.setPaginatorStatus();
-                    methods.performPaginatorUpdate();
                 },
 
                 setPaginatorStatus: function () {
                     params.paginators.left.enabled = (params.page === 0) ? false : true;
                     params.paginators.right.enabled = (params.page >= (mediatorConfig.numPages - 1)) ? false : true;
+
+                    methods.performPaginatorUpdate();
                 },
 
                 performPaginatorUpdate: function () {
@@ -74,7 +74,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 this._super();
             },
             updatePosition: function (newPosition, oldPosition) {
-                methods.setPaginators(newPosition, oldPosition);
+                methods.setPageByPosition(newPosition, oldPosition);
             },
             updateToFilter: function (filterIndex) {
                 methods.setPageByFilter(filterIndex);
