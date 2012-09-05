@@ -16,10 +16,10 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     params.paginators.left.enabled = (currentPosition === 'start') ? false : true;
                     params.paginators.right.enabled = (currentPosition === 'end') ? false : true;
 
-                    methods.performPagintorUpdate();
+                    methods.performPaginatorUpdate();
                 },
 
-                performPagintorUpdate: function () {
+                performPaginatorUpdate: function () {
                     var key, selector;
                     for (key in params.paginators) {
                         if (params.paginators.hasOwnProperty(key)) {
