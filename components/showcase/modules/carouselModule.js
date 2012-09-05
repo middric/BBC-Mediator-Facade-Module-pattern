@@ -2,6 +2,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
     return function Carousel(settings, mediatorConfig) {
         var params = {},
             methods = {
+                /**
+                 * Move the carousel by direction
+                 * @param  {String}   dir      Direction in which to move - left|right
+                 * @param  {Function} callback Function to execute after move
+                 */
                 moveInDirection: function (dir, callback) {
                     var px = 0;
                     if (dir !== 'right' && dir !== 'left') {
@@ -12,6 +17,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     methods.moveByPx(px, callback);
                 },
 
+                /**
+                 * Move the carousel by a set number of pixels
+                 * @param  {Int}   px          Number of pixels in which to move, can be negative
+                 * @param  {Function} callback Function to execute after move
+                 */
                 moveByPx: function (px, callback) {
                     var newPos = params.currentPos + px;
 
@@ -26,6 +36,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     methods.performMove(callback);
                 },
 
+                /**
+                 * Move the varousel to a particular filter
+                 * @param  {Int}   index       Filter to move to
+                 * @param  {Function} callback Function to execute after move
+                 */
                 moveToFilter: function (index, callback) {
                     params.oldPos = params.currentPos;
                     params.currentPos = (mediatorConfig.numPages / mediatorConfig.numFilters) * (index) * mediatorConfig.pageWidth;
@@ -33,6 +48,10 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     methods.performMove(callback);
                 },
 
+                /**
+                 * Move the carousel DOM elements
+                 * @param  {Function} callback Function to execute after move
+                 */
                 performMove: function (callback) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
 

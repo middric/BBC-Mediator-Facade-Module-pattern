@@ -2,6 +2,10 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
     return function Filters(settings, mediatorConfig) {
         var params = {},
             methods = {
+                /**
+                 * Attach DOM event listeners
+                 * @param  {Function} callback Function to execute on event
+                 */
                 attachListeners: function (callback) {
                     methods.getFilters().on('click.filters', function (e) {
                         methods.setFilter($(this).index(), callback);
@@ -10,10 +14,18 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     });
                 },
 
+                /**
+                 * Detach DOM event listeners
+                 */
                 detachListeners: function () {
                     methods.getFilters().off('click.filters');
                 },
 
+                /**
+                 * Set the module filter reference
+                 * @param {Index}    index    The filter index
+                 * @param {Function} callback Function to execute after setting the filter
+                 */
                 setFilter: function (index, callback) {
                     params.currentFilter = index;
 
@@ -24,6 +36,9 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     }
                 },
 
+                /**
+                 * Update the DOM to reflect the current filter
+                 */
                 performFilterUpdate: function () {
                     methods.getFilters()
                         .removeClass('selected')
@@ -31,6 +46,10 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                         .addClass('selected');
                 },
 
+                /**
+                 * Get a reference to the DOM filter buttons
+                 * @return {Object} jQuery object containing the filter buttons
+                 */
                 getFilters: function () {
                     if (!params._filters) {
                         params._filters = $('#' + params.containerID + ' li');
