@@ -15,7 +15,7 @@
         }
     },
     "Carousel": {
-    	"numPages": 3,
+    	"numPages": 6,
         "containerID": "showcaseContainer",
         "currentPos": 0,
         "pageWidth": 600
