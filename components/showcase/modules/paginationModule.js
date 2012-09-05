@@ -8,7 +8,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     $(params.paginators.left.selector + ', ' + params.paginators.right.selector).on('click.filters', callback);
                 },
 
-                destroyListeners: function () {
+                detachListeners: function () {
                     $(params.paginators.left.selector + ', ' + params.paginators.right.selector).off('click.filters');
                 },
 
@@ -51,7 +51,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 this._super();
             },
             teardown: function () {
-                methods.destroyListeners();
+                methods.detachListeners();
 
                 this._super();
             },
