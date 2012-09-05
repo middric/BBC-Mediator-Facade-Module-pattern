@@ -3,13 +3,20 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
         var params = {},
             methods = {
                 attachListeners: function (callback) {
-                    callback = (typeof callback !== 'function') ? function () {} : callback;
-
-                    $('#' + params.containerID + ' li').on('click.filters', callback);
+                    $('#' + params.containerID + ' li').on('click.filters', function () {
+                        methods.setFilter($(this).index(), callback);
+                    });
                 },
 
                 detachListeners: function () {
                     $('#' + params.containerID + ' li').off('click.filters');
+                },
+
+                setFilter: function (index, callback) {
+                    params.currentFilter = index;
+
+                    callback = (typeof callback !== 'function') ? function () {} : callback;
+                    callback();
                 }
             };
 
@@ -26,8 +33,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 }
 
                 methods.attachListeners(function (e) {
-                    var index = $(this).index();
-                    that.signals.Clicked.dispatch(index);
+                    that.signals.Clicked.dispatch(params.currentFilter);
                     e.preventDefault();
                 });
 
