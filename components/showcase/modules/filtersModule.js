@@ -15,8 +15,9 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 setFilter: function (index, callback) {
                     params.currentFilter = index;
 
-                    callback = (typeof callback !== 'function') ? function () {} : callback;
-                    callback();
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
                 }
             };
 
