@@ -4,8 +4,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             methods = {
                 /**
                  * Move the carousel by direction
-                 * @param  {String}   dir      Direction in which to move - left|right
-                 * @param  {Function} callback Function to execute after move
+                 * @param {String}   dir      Direction in which to move - left|right
+                 * @param {Function} callback Function to execute after move
                  */
                 moveInDirection: function (dir, callback) {
                     var px = 0;
@@ -19,43 +19,43 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 /**
                  * Move the carousel by a set number of pixels
-                 * @param  {Int}   px          Number of pixels in which to move, can be negative
-                 * @param  {Function} callback Function to execute after move
+                 * @param {Int}      px       Number of pixels in which to move, can be negative
+                 * @param {Function} callback Function to execute after move
                  */
                 moveByPx: function (px, callback) {
-                    var newPos = params.currentPos + px;
+                    var newPosition = params.currentPosition + px;
 
                     // Dont do anything if new position is beyond start or end
-                    if (newPos < 0 || newPos > (mediatorConfig.numPages - 1) * mediatorConfig.pageWidth) {
+                    if (newPosition < 0 || newPosition > (mediatorConfig.numPages - 1) * mediatorConfig.pageWidth) {
                         return;
                     }
 
-                    params.oldPos = params.currentPos;
-                    params.currentPos = newPos;
+                    params.oldPosition = params.currentPosition;
+                    params.currentPosition = newPosition;
 
                     methods.performMove(callback);
                 },
 
                 /**
-                 * Move the varousel to a particular filter
-                 * @param  {Int}   index       Filter to move to
-                 * @param  {Function} callback Function to execute after move
+                 * Move the carousel to a particular filter
+                 * @param {Int}      index    Filter to move to
+                 * @param {Function} callback Function to execute after move
                  */
                 moveToFilter: function (index, callback) {
-                    params.oldPos = params.currentPos;
-                    params.currentPos = (mediatorConfig.numPages / mediatorConfig.numFilters) * (index) * mediatorConfig.pageWidth;
+                    params.oldPosition = params.currentPosition;
+                    params.currentPosition = (mediatorConfig.numPages / mediatorConfig.numFilters) * (index) * mediatorConfig.pageWidth;
 
                     methods.performMove(callback);
                 },
 
                 /**
                  * Move the carousel DOM elements
-                 * @param  {Function} callback Function to execute after move
+                 * @param {Function} callback Function to execute after move
                  */
                 performMove: function (callback) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
 
-                    $('#' + params.containerID).animate({scrollLeft: params.currentPos}, callback);
+                    $('#' + params.containerID).animate({scrollLeft: params.currentPosition}, callback);
                 }
             };
             
@@ -75,7 +75,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             moveInDirection: function (dir) {
                 var that = this;
                 methods.moveInDirection(dir, function () {
-                    that.signals.Moved.dispatch(params.currentPos, params.oldPos);
+                    that.signals.Moved.dispatch(params.currentPosition, params.oldPosition);
                 });
             },
             moveToFilter: function (index) {

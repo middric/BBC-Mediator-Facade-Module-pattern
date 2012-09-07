@@ -6,7 +6,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             methods = {
                 /**
                  * Attach DOM event listeners
-                 * @param  {Function} callback Function to execute on event
+                 * @param {Function} callback Function to execute on event
                  */
                 attachListeners: function (callback) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;

@@ -4,7 +4,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             methods = {
                 /**
                  * Attach DOM event listeners
-                 * @param  {Function} callback Function to execute on event
+                 * @param {Function} callback Function to execute on event
                  */
                 attachListeners: function (callback) {
                     methods.getFilters().on('click.filters', function (e) {
@@ -80,10 +80,6 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 methods.detachListeners();
 
                 this._super();
-            },
-
-            updatePosition: function () {
-
             },
 
             signals: {
