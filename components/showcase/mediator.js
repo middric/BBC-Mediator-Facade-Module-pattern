@@ -3,15 +3,16 @@ define([
     'json!./config.json',
     'superclasses/mediator',
     './modules/paginationModule',
-    './modules/filtersModule'
-], function (require, config, Mediator, Pagination, Filters) {
+    './modules/filtersModule',
+    './modules/historyModule'
+], function (require, config, Mediator, Pagination, Filters, History) {
     var mediator = Mediator.extend({
 
         config: config,
 
         init: function (settings) {
             var that = this, key;
-            this.addModules(Pagination, Filters);
+            this.addModules(Pagination, Filters, History);
 
             this._super(settings);
 
