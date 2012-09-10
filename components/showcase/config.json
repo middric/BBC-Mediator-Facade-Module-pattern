@@ -10,11 +10,11 @@
     "Pagination": {
         "paginators": {
         	"left": {
-        		"selector": "#left",
+        		"id": "left",
         		"enabled": false
         	},
         	"right": {
-        		"selector": "#right",
+        		"id": "right",
         		"enabled": true
         	}
         },
@@ -22,7 +22,7 @@
     },
     "Carousel": {
         "containerID": "showcaseContainer",
-        "currentPos": 0
+        "currentPosition": 0
     },
     "Filters": {
         "containerID": "filtersContainer",

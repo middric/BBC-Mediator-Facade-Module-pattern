@@ -4,21 +4,21 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             page: 0
         },
             methods = {
-                /**
-                 * Attach DOM event listeners
-                 * @param {Function} callback Function to execute on event
-                 */
-                attachListeners: function (callback) {
+                attachKeyboardListener: function (callback) {
+                    $(window).on('keydown.pagination', callback);
+                },
+
+                attachPaginationButtonListener: function (callback) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
 
-                    $(params.paginators.left.selector + ', ' + params.paginators.right.selector).on('click.pagination', callback);
+                    $('#' + params.paginators.left.id + ', #' + params.paginators.right.id).on('click.pagination', callback);
                 },
 
                 /**
                  * Detach DOM event listeners
                  */
                 detachListeners: function () {
-                    $(params.paginators.left.selector + ', ' + params.paginators.right.selector).off('click.pagination');
+                    $('#' + params.paginators.left.id + ', #' + params.paginators.right.id).off('click.pagination');
                 },
 
                 /**
@@ -37,6 +37,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                  * @param {Int} oldPosition The previous carousel position
                  */
                 setPageByPosition: function (newPosition, oldPosition) {
+                    oldPosition = oldPosition || 0;
                     if (newPosition > oldPosition) {
                         params.page++;
                     } else if (newPosition < oldPosition) {
@@ -63,7 +64,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     var key, selector;
                     for (key in params.paginators) {
                         if (params.paginators.hasOwnProperty(key)) {
-                            selector = $(params.paginators[key].selector).removeClass('disabled');
+                            selector = $('#' + params.paginators[key].id).removeClass('disabled');
                             if (!params.paginators[key].enabled) {
                                 selector.addClass('disabled');
                             }
@@ -73,6 +74,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             };
 
         return Facade.extend({
+            _fired: false,
+
             init: function () {
                 var that = this,
                     key;
@@ -84,8 +87,28 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     }
                 }
 
-                methods.attachListeners(function () {
-                    that.signals.Clicked.dispatch(this.id);
+                methods.attachPaginationButtonListener(function (e) {
+                    if (!that._fired) {
+                        that.signals.Paged.dispatch(this.id);
+                        that._fired = true;
+                    }
+                });
+
+                methods.attachKeyboardListener(function (e) {
+                    if (!that._fired) {
+                        that._fired = true;
+                        var id;
+                        switch (e.keyCode) {
+                        case 37:
+                            id = params.paginators.left.id;
+                            break;
+                        case 39:
+                            id = params.paginators.right.id;
+                            break;
+                        }
+
+                        that.signals.Paged.dispatch(id);
+                    }
                 });
 
                 this._super();
@@ -97,13 +120,15 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             },
             updatePosition: function (newPosition, oldPosition) {
                 methods.setPageByPosition(newPosition, oldPosition);
+                this._fired = false;
             },
             updateToFilter: function (filterIndex) {
                 methods.setPageByFilter(filterIndex);
+                this._fired = false;
             },
 
             signals: {
-                Clicked: new Signal()
+                Paged: new Signal()
             }
         });
     };

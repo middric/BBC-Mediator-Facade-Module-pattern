@@ -27,7 +27,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                     // Dont do anything if new position is beyond start or end
                     if (newPosition < 0 || newPosition > (mediatorConfig.numPages - 1) * mediatorConfig.pageWidth) {
-                        return;
+                        if (typeof callback === 'function') {
+                            // Fire the callback and stop execution
+                            callback();
+                            return;
+                        }
                     }
 
                     params.oldPosition = params.currentPosition;

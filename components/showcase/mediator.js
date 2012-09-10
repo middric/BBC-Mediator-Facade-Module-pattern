@@ -30,7 +30,7 @@ define([
             }
         },
 
-        onPaginationClicked: function (dir) {
+        onPaginationPaged: function (dir) {
             if (this.modules.Carousel) {
                 this.modules.Carousel.moveInDirection(dir);
             }
