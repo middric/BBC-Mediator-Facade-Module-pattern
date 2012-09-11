@@ -2,15 +2,15 @@
 <html>
     <head>
         <title>Mediator, Facade, Module pattern</title>
-        <script src="lib/require/require.js"></script>
+        <script src="scripts/lib/require/require.js"></script>
         <script>
             require.config({
+                baseUrl: "scripts",
                 paths: {
                     text: 'lib/require/plugins/text',
                     json: 'lib/require/plugins/json',
                     jquery: 'lib/jquery',
-                    signals: 'lib/signals',
-                    compoundSignal: 'lib/CompoundSignal'
+                    signals: 'lib/signals'
                 }
             });
 
