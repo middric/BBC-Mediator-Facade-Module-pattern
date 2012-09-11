@@ -26,6 +26,9 @@
     },
     "Filters": {
         "containerID": "filtersContainer",
-        "currentFilter": 0
+        "currentFilter": null
+    },
+    "History": {
+        "pattern": "/tv/$1?page=$2"
     }
 }

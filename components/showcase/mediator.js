@@ -20,9 +20,9 @@ define([
             require(['./modules/' + this.config.Mediator.showcaseType], function (module) {
                 that.addModule(module);
                 that.ready(module);
-            });
 
-            this.modules.Pagination.updatePosition(0, 0);
+                that.modules.Carousel.moveToFilter(0);
+            });
         },
 
         onFiltersClicked: function (index) {
@@ -31,10 +31,15 @@ define([
             }
         },
 
-        onPaginationPaged: function (dir) {
+        onPaginationPaged: function (dir, page) {
             if (this.modules.Carousel) {
                 this.modules.Carousel.moveInDirection(dir);
             }
+        },
+
+        onPaginationPageComplete: function (page) {
+            this.modules.Filters.updateFilter(page);
+            this.modules.History.updateURL(null, page);
         },
 
         onCarouselMoved: function (newPosition, oldPosition) {
@@ -43,6 +48,10 @@ define([
 
         onCarouselMovedToFilter: function (index) {
             this.modules.Pagination.updateToFilter(index);
+        },
+
+        onFiltersChanged: function (filter, page) {
+            this.modules.History.updateURL(filter, page);
         }
     });
 

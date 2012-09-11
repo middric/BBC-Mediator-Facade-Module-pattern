@@ -29,6 +29,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     if (newPosition < 0 || newPosition > (mediatorConfig.numPages - 1) * mediatorConfig.pageWidth) {
                         if (typeof callback === 'function') {
                             // Fire the callback and stop execution
+                            params.oldPosition = params.currentPosition;
                             callback();
                             return;
                         }

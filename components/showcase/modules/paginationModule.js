@@ -1,7 +1,8 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
     return function Pagination(settings, mediatorConfig) {
         var params = {
-            page: 0
+            page: 0,
+            filter: 0
         },
             methods = {
                 attachKeyboardListener: function (callback) {
@@ -38,6 +39,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                  */
                 setPageByPosition: function (newPosition, oldPosition) {
                     oldPosition = oldPosition || 0;
+
                     if (newPosition > oldPosition) {
                         params.page++;
                     } else if (newPosition < oldPosition) {
@@ -121,14 +123,19 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             updatePosition: function (newPosition, oldPosition) {
                 methods.setPageByPosition(newPosition, oldPosition);
                 this._fired = false;
+
+                this.signals.PageComplete.dispatch(params.page);
             },
             updateToFilter: function (filterIndex) {
                 methods.setPageByFilter(filterIndex);
                 this._fired = false;
+
+                this.signals.PageComplete.dispatch(params.page);
             },
 
             signals: {
-                Paged: new Signal()
+                Paged: new Signal(),
+                PageComplete: new Signal()
             }
         });
     };

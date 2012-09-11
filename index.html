@@ -9,7 +9,8 @@
                     text: 'lib/require/plugins/text',
                     json: 'lib/require/plugins/json',
                     jquery: 'lib/jquery',
-                    signals: 'lib/signals'
+                    signals: 'lib/signals',
+                    compoundSignal: 'lib/CompoundSignal'
                 }
             });
 
@@ -107,8 +108,8 @@
         <a id="right" class="paginator">Go right</a>
 
         <ul id="filtersContainer">
-            <li><a>Filter one</a></li>
-            <li><a>Filter two</a></li>
+            <li><a data-id="best-of">Best of</a></li>
+            <li><a data-id="most-popular">Most popular</a></li>
         </ul>
     </body>
 </html>

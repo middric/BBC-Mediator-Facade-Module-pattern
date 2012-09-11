@@ -80,14 +80,14 @@ define(['require', 'superclasses/class'], function (require, Class) {
                             binding = moduleInstance.signals[signal].add(listener, this, Infinity);
                             binding.params = [method, moduleInstance.signals[signal]];
                         } else {
-                            if (this.config.debug) {
+                            if (this.config.Mediator.debug) {
                                 console.warn('Module signal has no corresponding listener method.', name, signal, method);
                             }
                         }
                     }
                 }
             } else {
-                if (this.config.debug) {
+                if (this.config.Mediator.debug) {
                     console.warn('Module name not defined.', module);
                 }
             }
