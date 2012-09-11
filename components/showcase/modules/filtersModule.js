@@ -72,6 +72,10 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 methods.attachListeners(function () {
                     that.signals.Clicked.dispatch(params.currentFilter);
+                    that.signals.Changed.dispatch(
+                        $('#' + params.containerID + ' a:eq(' + (params.currentFilter) + ')').attr('data-id'),
+                        0
+                    );
                 });
 
                 this._super();
