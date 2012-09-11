@@ -18,98 +18,123 @@
         </script>
 
         <style>
-            * { margin: 0; padding: 0 }
+            * { margin: 0; padding: 0; font-family: sans-serif }
+            #pageContainer {
+                position: relative;
+            }
             #showcaseContainer {
                 margin: 0 auto;
                 overflow: hidden;
-                width: 600px;
+                width: 900px;
             }
             #showcase {
-                width: 3600px;
+                width: 5400px;
             }
             .page {
                 list-style: none;
-                width: 600px;
+                width: 900px;
                 float: left;
             }
             .page li {
                 list-style: none;
                 background: #ccc;
-                height: 100px;
+                height: 140px;
                 margin: 10px;
                 padding: 10px;
                 float: left;
-                width: 160px;
+                width: 260px;
+                font-size: 7rem;
+                text-align: center;
+                font-weight: bold;
+                color: #aaa
             }
             .disabled {
-                color: #ccc;
+                color: #aaa;
             }
             .selected a{
                 background: #000;
                 color: #fff;
             }
+            .paginator {
+                background: #ccc;
+                position: absolute;
+                height: 100px;
+                width: 100px;
+                font-size: 1rem;
+                text-align: center;
+                font-weight: bold;
+                top: 50%;
+                margin-top: -50px;
+                left: 0
+            }
+            #right {
+                left: auto;
+                right: 0;
+            }
         </style>
     </head>
     <body>
         <h1>Showcase test</h1>
-        <a id="left" class="paginator">Go left</a>
-        <div id="showcaseContainer">
-            <div id="showcase">
-                <ul class="page">
-                    <li>1</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>5</li>
-                    <li>6</li>
-                </ul>
-                <ul class="page">
-                    <li>7</li>
-                    <li>8</li>
-                    <li>9</li>
-                    <li>10</li>
-                    <li>11</li>
-                    <li>12</li>
-                </ul>
-                <ul class="page">
-                    <li>13</li>
-                    <li>14</li>
-                    <li>15</li>
-                    <li>16</li>
-                    <li>17</li>
-                    <li>18</li>
-                </ul>
-                <ul class="page">
-                    <li>19</li>
-                    <li>20</li>
-                    <li>21</li>
-                    <li>22</li>
-                    <li>23</li>
-                    <li>24</li>
-                </ul>
-                <ul class="page">
-                    <li>25</li>
-                    <li>26</li>
-                    <li>27</li>
-                    <li>28</li>
-                    <li>29</li>
-                    <li>30</li>
-                </ul>
-                <ul class="page">
-                    <li>31</li>
-                    <li>32</li>
-                    <li>33</li>
-                    <li>34</li>
-                    <li>35</li>
-                    <li>36</li>
-                </ul>
+        <div id="pageContainer">
+            <a id="left" class="paginator">Go left</a>
+            <div id="showcaseContainer">
+                <div id="showcase">
+                    <ul class="page">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                    </ul>
+                    <ul class="page">
+                        <li>7</li>
+                        <li>8</li>
+                        <li>9</li>
+                        <li>10</li>
+                        <li>11</li>
+                        <li>12</li>
+                    </ul>
+                    <ul class="page">
+                        <li>13</li>
+                        <li>14</li>
+                        <li>15</li>
+                        <li>16</li>
+                        <li>17</li>
+                        <li>18</li>
+                    </ul>
+                    <ul class="page">
+                        <li>19</li>
+                        <li>20</li>
+                        <li>21</li>
+                        <li>22</li>
+                        <li>23</li>
+                        <li>24</li>
+                    </ul>
+                    <ul class="page">
+                        <li>25</li>
+                        <li>26</li>
+                        <li>27</li>
+                        <li>28</li>
+                        <li>29</li>
+                        <li>30</li>
+                    </ul>
+                    <ul class="page">
+                        <li>31</li>
+                        <li>32</li>
+                        <li>33</li>
+                        <li>34</li>
+                        <li>35</li>
+                        <li>36</li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <a id="right" class="paginator">Go right</a>
 
-        <ul id="filtersContainer">
-            <li><a data-id="best-of">Best of</a></li>
-            <li><a data-id="most-popular">Most popular</a></li>
-        </ul>
+            <ul id="filtersContainer">
+                <li><a data-id="best-of">Best of</a></li>
+                <li><a data-id="most-popular">Most popular</a></li>
+            </ul>
+            <a id="right" class="paginator">Go right</a>
+        </div>
     </body>
 </html>

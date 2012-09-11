@@ -4,7 +4,7 @@
         "showcaseType": "carouselModule",
         "numFilters": 2,
         "numPages": 6,
-        "pageWidth": 600
+        "pageWidth": 900
     },
 
     "Pagination": {
