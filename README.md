@@ -16,4 +16,10 @@
 *  Minimized require dependencies
 *  Minimized race condition gaps
 
+Structure diagram
+-----------------
 ![Structure diagram](https://raw.github.com/middric/BBC-Mediator-Facade-Module-pattern/master/structure_diagram.png)
+
+Component lifecycle
+-------------------
+![Component lifecycle](https://raw.github.com/middric/BBC-Mediator-Facade-Module-pattern/master/component_lifecycle.png)
