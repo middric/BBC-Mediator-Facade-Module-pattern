@@ -13,6 +13,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     memo.first.remove();
                     memo.last.remove();
                     memo.innerContainer.width(memo.innerContainer.width() - (mediatorConfig.pageWidth * 2));
+
+                    memo.container.scrollLeft(memo.container.scrollLeft() - mediatorConfig.pageWidth);
                 },
 
                 /**
@@ -59,11 +61,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                  * @param {Int}      index    Filter to move to
                  * @param {Function} callback Function to execute after move
                  */
-                moveToFilter: function (index, callback) {
+                moveToFilter: function (index, callback, speed) {
                     params.oldPosition = params.currentPosition;
                     params.currentPosition = (mediatorConfig.numPages / mediatorConfig.numFilters) * (index) * mediatorConfig.pageWidth;
 
-                    methods.performMove(callback);
+                    methods.performMove(callback, speed);
                 },
 
                 moveToPage: function (page, callback) {
@@ -86,10 +88,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                  * Move the carousel DOM elements
                  * @param {Function} callback Function to execute after move
                  */
-                performMove: function (callback) {
+                performMove: function (callback, speed) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
+                    var position = params.currentPosition + mediatorConfig.pageWidth;
 
-                    memo.container.animate({scrollLeft: params.currentPosition}, callback);
+                    memo.container.animate({scrollLeft: position}, speed, callback);
                 }
             };
             
@@ -128,11 +131,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     that.signals.Moved.dispatch(params.currentPosition, params.oldPosition);
                 });
             },
-            moveToFilter: function (index) {
+            moveToFilter: function (index, speed) {
                 var that = this;
                 methods.moveToFilter(index, function () {
                     that.signals.MovedToFilter.dispatch(index);
-                });
+                }, speed);
             },
             moveToPage: function (page) {
                 var that = this;

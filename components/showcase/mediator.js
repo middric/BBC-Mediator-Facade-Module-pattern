@@ -23,8 +23,16 @@ define([
                 that.addModule(module);
                 that.ready(module);
 
-                that.modules.Carousel.moveToFilter(0);
+                that.modules.Carousel.moveToFilter(0, 0);
             });
+        },
+
+        resume: function () {
+            if (this.modules.Carousel) {
+                this.modules.Carousel.moveToFilter(0, 0);
+            }
+
+            this._super();
         },
 
         onFiltersClicked: function (index) {
