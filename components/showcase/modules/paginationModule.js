@@ -79,8 +79,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             _fired: false,
 
             init: function () {
-                var that = this,
-                    key;
+                var key;
 
                 // Merge settings and default config
                 for (key in settings) {
@@ -88,6 +87,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                         params[key] = settings[key];
                     }
                 }
+
+                this._super();
+            },
+            resume: function () {
+                var that = this;
 
                 methods.attachPaginationButtonListener(function (e) {
                     if (!that._fired) {
@@ -115,7 +119,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            teardown: function () {
+            stop: function () {
                 methods.detachListeners();
 
                 this._super();

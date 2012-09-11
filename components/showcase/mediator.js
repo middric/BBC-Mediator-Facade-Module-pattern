@@ -40,19 +40,25 @@ define([
         },
 
         onPaginationPageComplete: function (page) {
-            this.modules.Filters.updateFilter(page);
+            if (this.modules.Filters) {
+                this.modules.Filters.updateFilter(page);
+            }
         },
 
         onCarouselMoved: function (newPosition, oldPosition) {
-            this.modules.Pagination.updatePosition(newPosition, oldPosition);
+            if (this.modules.Pagination) {
+                this.modules.Pagination.updatePosition(newPosition, oldPosition);
+            }
         },
 
         onCarouselMovedToFilter: function (index) {
-            this.modules.Pagination.updateToFilter(index);
+            if (this.modules.Pagination) {
+                this.modules.Pagination.updateToFilter(index);
+            }
         },
 
         onFiltersChanged: function (filter, page) {
-            if (!this.historyPopped) {
+            if (this.modules.History && !this.historyPopped) {
                 this.modules.History.updateURL(filter, page);
             }
             this.historyPopped = false;

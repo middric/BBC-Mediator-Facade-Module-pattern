@@ -92,15 +92,25 @@ define(['require', 'superclasses/class'], function (require, Class) {
                 }
             }
         },
+
+        resume: function () {
+            var key;
+            for (key in this.modules) {
+                if (this.modules.hasOwnProperty(key)) {
+                    this.modules[key].resume();
+                }
+            }
+        },
         
         /**
-         * Tear down the mediator and associated modules
+         * Stop the mediator and associated modules
          */
-        teardown: function () {
-            var i;
-            // Destroy each facade in turn
-            for (i = this.modules.length - 1; i >= 0; i--) {
-                this.modules[i].teardown();
+        stop: function () {
+            var key;
+            for (key in this.modules) {
+                if (this.modules.hasOwnProperty(key)) {
+                    this.modules[key].stop();
+                }
             }
         }
     });

@@ -1,15 +1,19 @@
-define(['signals', 'superclasses/facade'], function(Signal, Facade) {
+define(['jquery', 'signals', 'superclasses/facade'], function($, Signal, Facade) {
     return function History(settings, mediatorConfig) {
         var params = {
             replacements: []
         },
             methods = {
-                setupHistoryAPI: function(callback) {
-                    window.addEventListener('popstate', function(e) {
+                attachHistoryAPI: function(callback) {
+                    $(window).on('popstate.history', function(e) {
                         if (e.state && typeof callback === 'function') {
                             callback(e.state);
                         }
                     });
+                },
+
+                detachHistoryAPI: function() {
+                    $(window).off('popstate.history');
                 },
 
                 updateURL: function(r1, r2) {
@@ -26,8 +30,7 @@ define(['signals', 'superclasses/facade'], function(Signal, Facade) {
 
         return Facade.extend({
             init: function () {
-                var that = this,
-                    key;
+                var key;
 
                 // Merge settings and default config
                 for (key in settings) {
@@ -36,9 +39,21 @@ define(['signals', 'superclasses/facade'], function(Signal, Facade) {
                     }
                 }
 
-                methods.setupHistoryAPI(function (attributes) {
+                this._super();
+            },
+
+            resume: function () {
+                var that = this;
+
+                methods.attachHistoryAPI(function (attributes) {
                     that.signals.PopState.dispatch(attributes);
                 });
+
+                this._super();
+            },
+
+            stop: function () {
+                methods.detachHistoryAPI();
 
                 this._super();
             },

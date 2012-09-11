@@ -60,8 +60,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
         return Facade.extend({
             init: function () {
-                var that = this,
-                    key;
+                var key;
 
                 // Merge settings and default config
                 for (key in settings) {
@@ -69,6 +68,12 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                         params[key] = settings[key];
                     }
                 }
+
+                this._super();
+            },
+
+            resume: function () {
+                var that = this;
 
                 methods.attachListeners(function () {
                     that.signals.Clicked.dispatch(params.currentFilter);
@@ -80,7 +85,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            teardown: function () {
+
+            stop: function () {
                 methods.detachListeners();
 
                 this._super();
