@@ -1,7 +1,20 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
     return function Carousel(settings, mediatorConfig) {
         var params = {},
+            memo = {},
             methods = {
+                addPlaceholders: function () {
+                    memo.innerContainer.prepend(memo.last)
+                        .append(memo.first)
+                        .width(memo.innerContainer.width() + (mediatorConfig.pageWidth * 2));
+                },
+
+                removePlaceholders: function () {
+                    memo.first.remove();
+                    memo.last.remove();
+                    memo.innerContainer.width(memo.innerContainer.width() - (mediatorConfig.pageWidth * 2));
+                },
+
                 /**
                  * Move the carousel by direction
                  * @param {String}   dir      Direction in which to move - left|right
@@ -76,7 +89,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 performMove: function (callback) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
 
-                    $('#' + params.containerID).animate({scrollLeft: params.currentPosition}, callback);
+                    memo.container.animate({scrollLeft: params.currentPosition}, callback);
                 }
             };
             
@@ -90,6 +103,22 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                         params[key] = settings[key];
                     }
                 }
+
+                // Memoize jQuery objects
+                memo.container = memo.container || $('#' + params.containerID),
+                memo.first = memo.first || $('ul:first', memo.container).clone();
+                memo.last = memo.end || $('ul:last', memo.container).clone();
+                memo.innerContainer = memo.innerContainer || $('#showcase', memo.container);
+
+                this._super();
+            },
+            resume: function () {
+                methods.addPlaceholders();
+
+                this._super();
+            },
+            stop: function () {
+                methods.removePlaceholders();
 
                 this._super();
             },

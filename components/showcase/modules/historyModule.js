@@ -1,27 +1,27 @@
-define(['jquery', 'signals', 'superclasses/facade'], function($, Signal, Facade) {
+define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
     return function History(settings, mediatorConfig) {
         var params = {
             replacements: []
         },
             methods = {
-                attachHistoryAPI: function(callback) {
-                    $(window).on('popstate.history', function(e) {
+                attachHistoryAPI: function (callback) {
+                    $(window).on('popstate.history', function (e) {
                         if (e.state && typeof callback === 'function') {
                             callback(e.state);
                         }
                     });
                 },
 
-                detachHistoryAPI: function() {
+                detachHistoryAPI: function () {
                     $(window).off('popstate.history');
                 },
 
-                updateURL: function(r1, r2) {
+                updateURL: function (r1, r2) {
                     var url = params.pattern.replace('$1', r1).replace('$2', r2);
 
-                    if (window.history && window.history.pushState) {
+                    /*if (window.history && window.history.pushState) {
                         window.history.pushState({r1: r1, r2: r2}, '', url);
-                    }
+                    }*/
 
                     params.replacements[0] = r1;
                     params.replacements[1] = r2;

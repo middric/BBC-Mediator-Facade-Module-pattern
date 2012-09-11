@@ -113,7 +113,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                             break;
                         }
 
-                        that.signals.Paged.dispatch(id);
+                        if (id) {
+                            that.signals.Paged.dispatch(id);
+                        } else {
+                            that._fired = false;
+                        }
                     }
                 });
 
