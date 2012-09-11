@@ -90,8 +90,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                  */
                 performMove: function (callback, speed) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
-                    var position = params.currentPosition + mediatorConfig.pageWidth;
-
+                    var position = params.currentPosition + mediatorConfig.pageWidth - params.offset;
                     memo.container.animate({scrollLeft: position}, speed, callback);
                 }
             };
@@ -108,10 +107,10 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 }
 
                 // Memoize jQuery objects
-                memo.container = memo.container || $('#' + params.containerID),
+                memo.container = memo.container || $('#' + params.containerID);
+                memo.innerContainer = memo.innerContainer || $('#showcase', memo.container);
                 memo.first = memo.first || $('ul:first', memo.container).clone();
                 memo.last = memo.end || $('ul:last', memo.container).clone();
-                memo.innerContainer = memo.innerContainer || $('#showcase', memo.container);
 
                 this._super();
             },
@@ -139,7 +138,6 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             },
             moveToPage: function (page) {
                 var that = this;
-
                 methods.moveToPage(page, function () {
                     that.signals.Moved.dispatch(params.currentPosition, params.oldPosition);
                 });

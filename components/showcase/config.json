@@ -22,7 +22,8 @@
     },
     "Carousel": {
         "containerID": "showcaseContainer",
-        "currentPosition": 0
+        "currentPosition": 0,
+        "offset": 150
     },
     "Filters": {
         "containerID": "filtersContainer",
