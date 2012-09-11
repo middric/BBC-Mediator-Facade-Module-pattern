@@ -1,4 +1,4 @@
-define(['require', 'superclasses/class'], function (require, Class) {
+define(['superclasses/class'], function (Class) {
     var Mediator = Class.extend({
         config: {},
 
