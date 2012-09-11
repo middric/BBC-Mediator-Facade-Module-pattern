@@ -11,7 +11,7 @@
         "paginators": {
         	"left": {
         		"id": "left",
-        		"enabled": false
+        		"enabled": true
         	},
         	"right": {
         		"id": "right",

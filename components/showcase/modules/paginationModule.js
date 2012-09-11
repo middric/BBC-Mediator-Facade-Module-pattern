@@ -29,32 +29,15 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 setPageByFilter: function (index) {
                     params.page = (index * (mediatorConfig.numPages / mediatorConfig.numFilters));
 
-                    methods.setPaginatorStatus();
+                    methods.performPaginatorUpdate();
                 },
 
                 /**
                  * Set the module page reference by position change
-                 * @param {Int} newPosition The new carousel position
-                 * @param {Int} oldPosition The previous carousel position
+                 * @param {Int} position The carousel position
                  */
-                setPageByPosition: function (newPosition, oldPosition) {
-                    oldPosition = oldPosition || 0;
-
-                    if (newPosition > oldPosition) {
-                        params.page++;
-                    } else if (newPosition < oldPosition) {
-                        params.page--;
-                    }
-
-                    methods.setPaginatorStatus();
-                },
-
-                /**
-                 * Set the pagination button status
-                 */
-                setPaginatorStatus: function () {
-                    params.paginators.left.enabled = (params.page === 0) ? false : true;
-                    params.paginators.right.enabled = (params.page >= (mediatorConfig.numPages - 1)) ? false : true;
+                setPageByPosition: function (position) {
+                    params.page = position / mediatorConfig.pageWidth;
 
                     methods.performPaginatorUpdate();
                 },
@@ -101,9 +84,10 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 });
 
                 methods.attachKeyboardListener(function (e) {
+                    var id;
+
                     if (!that._fired) {
                         that._fired = true;
-                        var id;
                         switch (e.keyCode) {
                         case 37:
                             id = params.paginators.left.id;
@@ -128,8 +112,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            updatePosition: function (newPosition, oldPosition) {
-                methods.setPageByPosition(newPosition, oldPosition);
+            updatePosition: function (position) {
+                methods.setPageByPosition(position);
                 this._fired = false;
 
                 this.signals.PageComplete.dispatch(params.page);

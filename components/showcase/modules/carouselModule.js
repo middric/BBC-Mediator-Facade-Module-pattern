@@ -6,13 +6,13 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 addPlaceholders: function () {
                     memo.innerContainer.prepend(memo.last)
                         .append(memo.first)
-                        .width(memo.innerContainer.width() + (mediatorConfig.pageWidth * 2));
+                        .width(memo.innerContainer.width() + (mediatorConfig.pageWidth * 4));
                 },
 
                 removePlaceholders: function () {
                     memo.first.remove();
                     memo.last.remove();
-                    memo.innerContainer.width(memo.innerContainer.width() - (mediatorConfig.pageWidth * 2));
+                    memo.innerContainer.width(memo.innerContainer.width() - (mediatorConfig.pageWidth * 4));
 
                     memo.container.scrollLeft(memo.container.scrollLeft() - mediatorConfig.pageWidth);
                 },
@@ -41,19 +41,25 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     var newPosition = params.currentPosition + px;
 
                     // Dont do anything if new position is beyond start or end
-                    if (newPosition < 0 || newPosition > (mediatorConfig.numPages - 1) * mediatorConfig.pageWidth) {
+                    /*if () {
                         if (typeof callback === 'function') {
                             // Fire the callback and stop execution
                             params.oldPosition = params.currentPosition;
                             callback();
                             return;
                         }
-                    }
+                    }*/
 
                     params.oldPosition = params.currentPosition;
                     params.currentPosition = newPosition;
 
-                    methods.performMove(callback);
+                    if (newPosition < 0) {
+                        methods.performLoop(callback);
+                    } else if (newPosition > (mediatorConfig.numPages - 1) * mediatorConfig.pageWidth) {
+                        methods.performLoop(callback);
+                    } else {
+                        methods.performMove(callback);
+                    }
                 },
 
                 /**
@@ -68,7 +74,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     methods.performMove(callback, speed);
                 },
 
-                moveToPage: function (page, callback) {
+                moveToPage: function (page, callback, speed) {
                     var newPosition = mediatorConfig.pageWidth * (page - 1);
 
                     if (newPosition === params.currentPosition) {
@@ -81,7 +87,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     params.oldPosition = params.currentPosition;
                     params.currentPosition = newPosition;
 
-                    methods.performMove(callback);
+                    methods.performMove(callback, speed);
                 },
 
                 /**
@@ -90,8 +96,20 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                  */
                 performMove: function (callback, speed) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
-                    var position = params.currentPosition + mediatorConfig.pageWidth - params.offset;
+                    var position = params.currentPosition + (mediatorConfig.pageWidth * 2) - params.offset;
                     memo.container.animate({scrollLeft: position}, speed, callback);
+                },
+
+                performLoop: function (callback, speed) {
+                    callback = (typeof callback !== 'function') ? function () {} : callback;
+                    var position = params.currentPosition + (mediatorConfig.pageWidth * 2) - params.offset;
+                    memo.container.animate({scrollLeft: position}, speed, function () {
+                        var page = 1;
+                        if (position < mediatorConfig.pageWidth) {
+                            page = mediatorConfig.numPages;
+                        }
+                        methods.moveToPage(page, callback, 0);
+                    });
                 }
             };
             
@@ -109,8 +127,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 // Memoize jQuery objects
                 memo.container = memo.container || $('#' + params.containerID);
                 memo.innerContainer = memo.innerContainer || $('#showcase', memo.container);
-                memo.first = memo.first || $('ul:first', memo.container).clone();
-                memo.last = memo.end || $('ul:last', memo.container).clone();
+                memo.first = memo.first || $('ul:lt(2)', memo.container).clone();
+                memo.last = memo.end || $('ul:gt(' + (mediatorConfig.numPages - 3) + ')', memo.container).clone();
 
                 this._super();
             },
@@ -127,7 +145,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             moveInDirection: function (dir) {
                 var that = this;
                 methods.moveInDirection(dir, function () {
-                    that.signals.Moved.dispatch(params.currentPosition, params.oldPosition);
+                    that.signals.Moved.dispatch(params.currentPosition);
                 });
             },
             moveToFilter: function (index, speed) {

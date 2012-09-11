@@ -53,9 +53,9 @@ define([
             }
         },
 
-        onCarouselMoved: function (newPosition, oldPosition) {
+        onCarouselMoved: function (position) {
             if (this.modules.Pagination) {
-                this.modules.Pagination.updatePosition(newPosition, oldPosition);
+                this.modules.Pagination.updatePosition(position);
             }
         },
 
