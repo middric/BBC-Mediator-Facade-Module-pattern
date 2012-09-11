@@ -89,14 +89,16 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             updateFilter: function (page) {
                 var filter = Math.floor(page / (mediatorConfig.numPages / mediatorConfig.numFilters));
 
-                if (filter !== params.currentFilter) {
-                    this.signals.Changed.dispatch(
-                        $('#' + params.containerID + ' a:eq(' + (filter) + ')').attr('data-id'),
-                        page
-                    );
-                }
+                this.signals.Changed.dispatch(
+                    $('#' + params.containerID + ' a:eq(' + (filter) + ')').attr('data-id'),
+                    page
+                );
                 
                 methods.setFilter(filter);
+            },
+
+            getIndexById: function (id) {
+                return $('#' + params.containerID + ' a[data-id="' + id + '"]').parent('li').index();
             },
 
             signals: {

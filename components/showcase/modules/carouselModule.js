@@ -53,6 +53,22 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     methods.performMove(callback);
                 },
 
+                moveToPage: function (page, callback) {
+                    var newPosition = mediatorConfig.pageWidth * (page - 1);
+
+                    if (newPosition === params.currentPosition) {
+                        if (typeof callback === 'function') {
+                            params.oldPosition = params.currentPosition;
+                            callback();
+                            return;
+                        }
+                    }
+                    params.oldPosition = params.currentPosition;
+                    params.currentPosition = newPosition;
+
+                    methods.performMove(callback);
+                },
+
                 /**
                  * Move the carousel DOM elements
                  * @param {Function} callback Function to execute after move
@@ -87,6 +103,13 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 var that = this;
                 methods.moveToFilter(index, function () {
                     that.signals.MovedToFilter.dispatch(index);
+                });
+            },
+            moveToPage: function (page) {
+                var that = this;
+
+                methods.moveToPage(page, function () {
+                    that.signals.Moved.dispatch(params.currentPosition, params.oldPosition);
                 });
             },
 

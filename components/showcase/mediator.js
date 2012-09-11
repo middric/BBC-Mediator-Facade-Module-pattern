@@ -10,6 +10,8 @@ define([
 
         config: config,
 
+        historyPopped: false,
+
         init: function (settings) {
             var that = this, key;
             this.addModules(Pagination, Filters, History);
@@ -39,7 +41,6 @@ define([
 
         onPaginationPageComplete: function (page) {
             this.modules.Filters.updateFilter(page);
-            this.modules.History.updateURL(null, page);
         },
 
         onCarouselMoved: function (newPosition, oldPosition) {
@@ -51,7 +52,20 @@ define([
         },
 
         onFiltersChanged: function (filter, page) {
-            this.modules.History.updateURL(filter, page);
+            if (!this.historyPopped) {
+                this.modules.History.updateURL(filter, page);
+            }
+            this.historyPopped = false;
+        },
+
+        onHistoryPopState: function (attributes) {
+            var filter = this.modules.Filters.getIndexById(attributes.r1),
+                page = (filter * (this.config.Mediator.numPages / this.config.Mediator.numFilters)) + attributes.r2;
+
+            if (this.modules.Carousel) {
+                this.historyPopped = true;
+                this.modules.Carousel.moveToPage(page);
+            }
         }
     });
 
