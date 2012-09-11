@@ -115,14 +115,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             
         return Facade.extend({
             init: function () {
-                var key;
-
-                // Merge settings and default config
-                for (key in settings) {
-                    if (settings.hasOwnProperty(key)) {
-                        params[key] = settings[key];
-                    }
-                }
+                params = this.merge(params, settings);
 
                 // Memoize jQuery objects
                 memo.container = memo.container || $('#' + params.containerID);

@@ -25,6 +25,19 @@ define(['lib/require/require', './class'], function (require, Class) {
             }
         },
 
+        merge: function (params, settings) {
+            var key;
+
+            // Merge settings and default config
+            for (key in settings) {
+                if (settings.hasOwnProperty(key)) {
+                    params[key] = settings[key];
+                }
+            }
+
+            return params;
+        },
+
         signals: []
     });
 
