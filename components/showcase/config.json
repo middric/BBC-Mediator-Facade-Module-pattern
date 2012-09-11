@@ -2,8 +2,8 @@
     "Mediator": {
         "debug": true,
         "showcaseType": "carouselModule",
-        "numFilters": 2,
-        "numPages": 6,
+        "numFilters": 3,
+        "numPages": 9,
         "pageWidth": 900
     },
 
