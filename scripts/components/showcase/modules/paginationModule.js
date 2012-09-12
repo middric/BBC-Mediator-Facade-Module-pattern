@@ -74,6 +74,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                         that.signals.Paged.dispatch(this.id);
                         that._fired = true;
                     }
+
+                    e.preventDefault();
                 });
 
                 methods.attachKeyboardListener(function (e) {
