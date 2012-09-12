@@ -1,8 +1,5 @@
-require(['jquery', 'jRespond', 'components/showcase/mediator'], function ($, jRespond, Showcase) {
-    var sc = new Showcase({
-        containerID: 'showcaseContainer',
-        paginators: ['left', 'right']
-    });
+require(['jRespond', 'components/showcase/showcaseMediator'], function (jRespond, Showcase) {
+    var sc = new Showcase();
     
     jRespond = jRespond();
     jRespond.addFunc({

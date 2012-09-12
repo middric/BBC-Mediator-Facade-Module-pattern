@@ -12,7 +12,7 @@
     },
     modules: [
         {
-            name: "components/showcase/mediator",
+            name: "components/showcase/showcaseMediator",
             exclude: [
                 'superclasses/class',
                 'superclasses/facade',
