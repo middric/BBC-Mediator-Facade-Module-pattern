@@ -11,12 +11,16 @@
     },
     modules: [
         {
-            name: "pageMediator"
+            name: "pageMediator",
+            exclude: [
+                'lib/require/require'
+            ]
         }
     ],
     uglify: {
         no_mangle: true
     },
     inlineText: true,
+    inlineJSON: true,
     preserveLicenseComments: false
 })
