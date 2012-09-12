@@ -22,6 +22,7 @@
     },
     "Carousel": {
         "containerID": "stream-container-outer",
+        "innerContainerID": "stream-container",
         "currentPosition": 0,
         "offset": 325
     },

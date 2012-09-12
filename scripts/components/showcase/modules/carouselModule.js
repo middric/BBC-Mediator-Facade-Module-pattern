@@ -108,7 +108,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 // Memoize jQuery objects
                 memo.container = memo.container || $('#' + params.containerID);
-                memo.innerContainer = memo.innerContainer || $('#stream-container', memo.container);
+                memo.innerContainer = memo.innerContainer || $('#' + params.innerContainerID);
                 memo.first = memo.first || $('ul:lt(2)', memo.container).clone();
                 memo.last = memo.end || $('ul:gt(' + (mediatorConfig.numPages - 3) + ')', memo.container).clone();
 
