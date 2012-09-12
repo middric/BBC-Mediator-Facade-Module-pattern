@@ -2,31 +2,31 @@
     "Mediator": {
         "debug": true,
         "showcaseType": "carouselModule",
-        "numFilters": 3,
-        "numPages": 9,
-        "pageWidth": 900
+        "numFilters": 2,
+        "numPages": 6,
+        "pageWidth": 975
     },
 
     "Pagination": {
         "paginators": {
         	"left": {
-        		"id": "left",
+        		"id": "scroll-left",
         		"enabled": true
         	},
         	"right": {
-        		"id": "right",
+        		"id": "scroll-right",
         		"enabled": true
         	}
         },
         "currentPage": 0
     },
     "Carousel": {
-        "containerID": "showcaseContainer",
+        "containerID": "stream-container-outer",
         "currentPosition": 0,
-        "offset": 150
+        "offset": 325
     },
     "Filters": {
-        "containerID": "filtersContainer",
+        "containerID": "stream-filters-component-2",
         "currentFilter": null
     },
     "History": {
