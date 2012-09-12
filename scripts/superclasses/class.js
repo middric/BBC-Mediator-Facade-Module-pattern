@@ -1,4 +1,4 @@
-define([], function() {
+define(function() {
     var Class;
     (function(){
         var initializing = false,

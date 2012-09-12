@@ -1,11 +1,12 @@
 define([
     'require',
+    'jquery',
     'json!./config.json',
     'superclasses/mediator',
     './modules/paginationModule',
     './modules/filtersModule',
     './modules/historyModule'
-], function (require, config, Mediator, Pagination, Filters, History) {
+], function (require, $, config, Mediator, Pagination, Filters, History) {
     var mediator = Mediator.extend({
 
         config: config,
@@ -33,6 +34,11 @@ define([
             }
 
             this._super();
+        },
+
+        updatePageWidth: function () {
+            var newWidth = $('.page:first').width();
+            this.config.Mediator.pageWidth = newWidth;
         },
 
         onFiltersClicked: function (index) {

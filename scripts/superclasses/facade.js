@@ -1,4 +1,4 @@
-define(['lib/require/require', './class'], function (require, Class) {
+define(['./class'], function (Class) {
     var Facade = Class.extend({
         init: function () {
             this.resume();

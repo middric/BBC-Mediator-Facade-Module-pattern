@@ -7,13 +7,23 @@
         json: 'lib/require/plugins/json',
         jquery: 'empty:',
         signals: 'empty:',
-        require: 'empty:'
+        require: 'empty:',
+        jRespond: 'empty:'
     },
     modules: [
         {
+            name: "components/showcase/mediator",
+            exclude: [
+                'superclasses/class',
+                'superclasses/facade',
+                'superclasses/mediator'
+            ]
+        },
+        {
             name: "pageMediator",
             exclude: [
-                'lib/require/require'
+                'lib/require/require',
+                'components/showcase/mediator'
             ]
         }
     ],
@@ -22,5 +32,6 @@
     },
     inlineText: true,
     inlineJSON: true,
-    preserveLicenseComments: false
+    preserveLicenseComments: false,
+    removeCombined: true
 })
