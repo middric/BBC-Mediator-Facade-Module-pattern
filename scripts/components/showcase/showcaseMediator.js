@@ -1,12 +1,13 @@
 define([
     'require',
     'jquery',
+    'signals',
     'json!./config.json',
     'superclasses/mediator',
     './modules/paginationModule',
     './modules/filtersModule',
     './modules/historyModule'
-], function (require, $, config, Mediator, Pagination, Filters, History) {
+], function (require, $, Signal, config, Mediator, Pagination, Filters, History) {
     var mediator = Mediator.extend({
 
         config: config,
@@ -25,6 +26,8 @@ define([
                 that.ready(module);
 
                 that.modules.Carousel.moveToFilter(0, 0);
+
+                that.signals.Loaded.dispatch();
             });
         },
 
@@ -86,6 +89,10 @@ define([
                 this.historyPopped = true;
                 this.modules.Carousel.moveToPage(page);
             }
+        },
+
+        signals: {
+            Loaded: new Signal()
         }
     });
 
