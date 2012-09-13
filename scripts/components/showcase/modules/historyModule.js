@@ -6,8 +6,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             methods = {
                 attachHistoryAPI: function (callback) {
                     $(window).on('popstate.history', function (e) {
-                        if (e.state && typeof callback === 'function') {
-                            callback(e.state);
+                        if (e.originalEvent.state && typeof callback === 'function') {
+                            callback(e.originalEvent.state);
                         }
                     });
                 },

@@ -1,6 +1,7 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
     return function Pagination(settings, mediatorConfig) {
-        var params = {
+        var cache = {},
+            params = {
             page: 0,
             filter: 0
         },
@@ -12,14 +13,16 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 attachPaginationButtonListener: function (callback) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
 
-                    $('#' + params.paginators.left.id + ', #' + params.paginators.right.id).on('click.pagination', callback);
+                    cache.paginators.left.on('click.pagination', callback);
+                    cache.paginators.right.on('click.pagination', callback);
                 },
 
                 /**
                  * Detach DOM event listeners
                  */
                 detachListeners: function () {
-                    $('#' + params.paginators.left.id + ', #' + params.paginators.right.id).off('click.pagination');
+                    cache.paginators.left.off('click.pagination');
+                    cache.paginators.right.off('click.pagination');
                 },
 
                 /**
@@ -49,7 +52,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     var key, selector;
                     for (key in params.paginators) {
                         if (params.paginators.hasOwnProperty(key)) {
-                            selector = $('#' + params.paginators[key].id).removeClass('disabled');
+                            selector = cache.paginators[key].removeClass('disabled');
                             if (!params.paginators[key].enabled) {
                                 selector.addClass('disabled');
                             }
@@ -63,6 +66,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
             init: function () {
                 params = this.merge(params, settings);
+
+                cache.paginators = cache.paginators || { left: $('#' + params.paginators.left.id), right: $('#' + params.paginators.right.id)};
 
                 this._super();
             },

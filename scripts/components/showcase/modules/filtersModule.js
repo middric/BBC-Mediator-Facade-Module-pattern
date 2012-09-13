@@ -1,6 +1,7 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
     return function Filters(settings, mediatorConfig) {
-        var params = {},
+        var cache = {},
+            params = {},
             methods = {
                 /**
                  * Attach DOM event listeners
@@ -60,7 +61,15 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
         return Facade.extend({
             init: function () {
+                var i, j;
                 params = this.merge(params, settings);
+
+                cache.filters = cache.filters || $('#' + params.containerID + ' a.filter-name');
+                for (i = cache.filters.length - 1; i >= 0; i--) {
+                    j = $(cache.filters[i]);
+                    cache.filters[j.attr('data-id')] = j;
+                    cache.filters[i] = j;
+                }
 
                 this._super();
             },
@@ -71,7 +80,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 methods.attachListeners(function () {
                     that.signals.Clicked.dispatch(params.currentFilter);
                     that.signals.Changed.dispatch(
-                        $('#' + params.containerID + ' a:eq(' + (params.currentFilter) + ')').attr('data-id'),
+                        cache.filters[params.currentFilter].attr('data-id'),
                         0
                     );
                 });
@@ -87,9 +96,8 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
             updateFilter: function (page) {
                 var filter = Math.floor(page / (mediatorConfig.numPages / mediatorConfig.numFilters));
-
                 this.signals.Changed.dispatch(
-                    $('#' + params.containerID + ' a:eq(' + (filter) + ')').attr('data-id'),
+                    cache.filters[filter].attr('data-id'),
                     page
                 );
                 
@@ -97,7 +105,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             },
 
             getIndexById: function (id) {
-                return $('#' + params.containerID + ' a[data-id="' + id + '"]').parent('li').index();
+                return cache.filters[id].parent('li').index();
             },
 
             signals: {
