@@ -15,19 +15,28 @@ define(['./class'], function (Class) {
         modules: {},
 
         init: function (settings) {
-            var i = this.moduleConstructors.length - 1,
-                key;
+            var i = this.moduleConstructors.length - 1;
+
+            this.updateConfig(settings);
+            
+            // Run module constructors
+            for (; i >= 0; i--) {
+                this.ready(this.moduleConstructors[i]);
+            }
+        },
+
+        /**
+         * Update facade configuration
+         * @param  {Object} settings
+         */
+        updateConfig: function (settings) {
+            var key;
 
             // Merge settings and default config
             for (key in settings) {
                 if (settings.hasOwnProperty(key)) {
                     this.config.Mediator[key] = settings[key];
                 }
-            }
-            
-            // Run module constructors
-            for (; i >= 0; i--) {
-                this.ready(this.moduleConstructors[i]);
             }
         },
 

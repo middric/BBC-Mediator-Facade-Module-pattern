@@ -1,20 +1,20 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
     return function Carousel(settings, mediatorConfig) {
-        var params = {},
-            memo = {},
+        var cache = {},
+            params = {},
             methods = {
                 addPlaceholders: function () {
-                    memo.innerContainer.prepend(memo.last)
-                        .append(memo.first)
+                    cache.innerContainer.prepend(cache.last)
+                        .append(cache.first)
                         .width(mediatorConfig.pageWidth * (mediatorConfig.numPages + 4));
                 },
 
                 removePlaceholders: function () {
-                    memo.first.remove();
-                    memo.last.remove();
-                    memo.innerContainer.width(memo.innerContainer.width() - (mediatorConfig.pageWidth * 4));
+                    cache.first.remove();
+                    cache.last.remove();
+                    cache.innerContainer.width(cache.innerContainer.width() - (mediatorConfig.pageWidth * 4));
 
-                    memo.container.scrollLeft(memo.container.scrollLeft() - (mediatorConfig.pageWidth * 2));
+                    cache.container.scrollLeft(cache.container.scrollLeft() - (mediatorConfig.pageWidth * 2));
                 },
 
                 /**
@@ -86,13 +86,13 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 performMove: function (callback, speed) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
                     var position = params.currentPosition + (mediatorConfig.pageWidth * 2) - params.offset;
-                    memo.container.animate({scrollLeft: position}, speed, callback);
+                    cache.container.animate({scrollLeft: position}, speed, callback);
                 },
 
                 performLoop: function (callback, speed) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
                     var position = params.currentPosition + (mediatorConfig.pageWidth * 2) - params.offset;
-                    memo.container.animate({scrollLeft: position}, speed, function () {
+                    cache.container.animate({scrollLeft: position}, speed, function () {
                         var page = 1;
                         if (position < mediatorConfig.pageWidth) {
                             page = mediatorConfig.numPages;
@@ -106,11 +106,11 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
             init: function () {
                 params = this.merge(params, settings);
 
-                // Memoize jQuery objects
-                memo.container = memo.container || $('#' + params.containerID);
-                memo.innerContainer = memo.innerContainer || $('#' + params.innerContainerID);
-                memo.first = memo.first || $('ul:lt(2)', memo.container).clone();
-                memo.last = memo.end || $('ul:gt(' + (mediatorConfig.numPages - 3) + ')', memo.container).clone();
+                // cache jQuery objects
+                cache.container = cache.container || $('#' + params.containerID);
+                cache.innerContainer = cache.innerContainer || $('#' + params.innerContainerID);
+                cache.first = cache.first || $('ul:lt(2)', cache.container).clone();
+                cache.last = cache.end || $('ul:gt(' + (mediatorConfig.numPages - 3) + ')', cache.container).clone();
 
                 this._super();
             },

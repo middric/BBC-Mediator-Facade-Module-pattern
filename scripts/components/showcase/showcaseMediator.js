@@ -11,7 +11,6 @@ define([
     var mediator = Mediator.extend({
 
         config: config,
-
         historyPopped: false,
 
         init: function (settings) {
@@ -27,6 +26,7 @@ define([
 
                 that.modules.Carousel.moveToFilter(0, 0);
 
+                // After carousel has loaded we can dispatch the loaded signal
                 that.signals.Loaded.dispatch();
             });
         },
@@ -48,6 +48,7 @@ define([
             if (this.modules.Carousel) {
                 this.modules.Carousel.moveToFilter(index);
             }
+            tehrthrht
         },
 
         onPaginationPaged: function (dir, page) {

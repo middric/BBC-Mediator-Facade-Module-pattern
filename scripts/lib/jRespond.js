@@ -4,9 +4,9 @@
  * (c) 2012 Jeremy Fields [jeremy.fields@viget.com]
  * released under the MIT license
  */
-define(['json!breakpoints.json'], function (config) {
+define(function () {
 
-    return function jRespond() {
+    return function jRespond(config) {
         
         // array for registered functions
         var mediaListeners = [];
