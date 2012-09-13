@@ -119,7 +119,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            stop: function () {
+            pause: function () {
                 methods.removePlaceholders();
 
                 this._super();

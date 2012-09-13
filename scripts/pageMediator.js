@@ -25,7 +25,7 @@ require([
     jRespond.addFunc({
         breakpoint: ['one', 'two'],
         enter: function () {
-            sc.stop();
+            sc.pause();
         }
     });
     jRespond.addFunc({

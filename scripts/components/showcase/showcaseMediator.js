@@ -48,7 +48,6 @@ define([
             if (this.modules.Carousel) {
                 this.modules.Carousel.moveToFilter(index);
             }
-            tehrthrht
         },
 
         onPaginationPaged: function (dir, page) {

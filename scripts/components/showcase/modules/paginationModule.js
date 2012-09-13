@@ -102,7 +102,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            stop: function () {
+            pause: function () {
                 methods.detachListeners();
 
                 this._super();

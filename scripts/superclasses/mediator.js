@@ -114,11 +114,11 @@ define(['./class'], function (Class) {
         /**
          * Stop the mediator and associated modules
          */
-        stop: function () {
+        pause: function () {
             var key;
             for (key in this.modules) {
                 if (this.modules.hasOwnProperty(key)) {
-                    this.modules[key].stop();
+                    this.modules[key].pause();
                 }
             }
         }

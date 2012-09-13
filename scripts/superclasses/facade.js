@@ -15,7 +15,7 @@ define(['./class'], function (Class) {
             }
         },
 
-        stop: function () {
+        pause: function () {
             var key;
 
             for (key in this.signals) {
