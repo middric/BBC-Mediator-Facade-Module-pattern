@@ -1,11 +1,14 @@
 define(['./class'], function (Class) {
     var Facade = Class.extend({
         init: function () {
-            this.resume();
+            this.attach();
+            this.calculate();
         },
         setup: function () {},
 
-        resume: function () {
+        calculate: function () {},
+
+        attach: function () {
             var key;
 
             for (key in this.signals) {
@@ -15,7 +18,7 @@ define(['./class'], function (Class) {
             }
         },
 
-        pause: function () {
+        detach: function () {
             var key;
 
             for (key in this.signals) {
@@ -26,16 +29,20 @@ define(['./class'], function (Class) {
         },
 
         merge: function (params, settings) {
-            var key;
+            return this._deepExtend(params, settings);
+        },
 
-            // Merge settings and default config
-            for (key in settings) {
-                if (settings.hasOwnProperty(key)) {
-                    params[key] = settings[key];
+        _deepExtend: function (destination, source) {
+            for (var property in source) {
+                if (source[property] && source[property].constructor &&
+                    source[property].constructor === Object) {
+                    destination[property] = destination[property] || {};
+                    arguments.callee(destination[property], source[property]);
+                } else {
+                    destination[property] = source[property];
                 }
             }
-
-            return params;
+            return destination;
         },
 
         signals: []

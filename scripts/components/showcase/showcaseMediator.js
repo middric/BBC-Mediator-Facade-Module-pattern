@@ -24,7 +24,7 @@ define([
                 that.addModule(module);
                 that.ready(module);
 
-                that.modules.Carousel.moveToFilter(0, 0);
+                //that.modules.Carousel.moveToFilter(0, 0);
 
                 // After carousel has loaded we can dispatch the loaded signal
                 that.signals.Loaded.dispatch();
@@ -32,16 +32,11 @@ define([
         },
 
         resume: function () {
+            this._super();
+
             if (this.modules.Carousel) {
                 this.modules.Carousel.moveToFilter(0, 0);
             }
-
-            this._super();
-        },
-
-        updatePageWidth: function () {
-            var newWidth = $('.page:first').width();
-            this.config.Mediator.pageWidth = newWidth;
         },
 
         onFiltersClicked: function (index) {

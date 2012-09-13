@@ -86,6 +86,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 performMove: function (callback, speed) {
                     callback = (typeof callback !== 'function') ? function () {} : callback;
                     var position = params.currentPosition + (mediatorConfig.pageWidth * 2) - params.offset;
+
                     cache.container.animate({scrollLeft: position}, speed, callback);
                 },
 
@@ -114,16 +115,23 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            resume: function () {
+            calculate: function () {
+                this._super();
+                
                 methods.addPlaceholders();
-
-                this._super();
+                this.moveToFilter(0, 0);
             },
-            pause: function () {
+            detach: function () {
+                this._super();
+
                 methods.removePlaceholders();
-
-                this._super();
             },
+            updateConfig: function (settings, mConfig) {
+                mediatorConfig = mConfig;
+
+                params = this.merge(params, settings);
+            },
+
             moveInDirection: function (dir) {
                 var that = this;
                 methods.moveInDirection(dir, function () {

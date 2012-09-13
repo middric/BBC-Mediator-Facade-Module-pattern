@@ -71,7 +71,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            resume: function () {
+            attach: function () {
                 var that = this;
 
                 methods.attachPaginationButtonListener(function (e) {
@@ -84,6 +84,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 });
 
                 methods.attachKeyboardListener(function (e) {
+                    console.log('fired')
                     var id;
 
                     if (!that._fired) {
@@ -107,7 +108,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            pause: function () {
+            detach: function () {
                 methods.detachListeners();
 
                 this._super();

@@ -74,7 +74,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 this._super();
             },
 
-            resume: function () {
+            attach: function () {
                 var that = this;
 
                 methods.attachListeners(function () {
@@ -88,7 +88,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 this._super();
             },
 
-            pause: function () {
+            detach: function () {
                 methods.detachListeners();
 
                 this._super();

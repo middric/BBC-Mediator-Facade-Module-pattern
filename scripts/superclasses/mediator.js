@@ -30,14 +30,29 @@ define(['./class'], function (Class) {
          * @param  {Object} settings
          */
         updateConfig: function (settings) {
-            var key;
+            var module, name;
 
             // Merge settings and default config
-            for (key in settings) {
-                if (settings.hasOwnProperty(key)) {
-                    this.config.Mediator[key] = settings[key];
+            this.config = this._deepExtend(this.config, settings);
+
+            for (module in this.modules) {
+                if (this.modules[module].updateConfig && typeof this.modules[module].updateConfig === 'function') {
+                    this.modules[module].updateConfig(this.config[module], this.config.Mediator);
                 }
             }
+        },
+
+        _deepExtend: function (destination, source) {
+            for (var property in source) {
+                if (source[property] && source[property].constructor &&
+                    source[property].constructor === Object) {
+                    destination[property] = destination[property] || {};
+                    arguments.callee(destination[property], source[property]);
+                } else {
+                    destination[property] = source[property];
+                }
+            }
+            return destination;
         },
 
         /**
@@ -107,11 +122,21 @@ define(['./class'], function (Class) {
             }
         },
 
+        calculate: function () {
+            var key;
+            for (key in this.modules) {
+                if (this.modules.hasOwnProperty(key)) {
+                    this.modules[key].calculate();
+                }
+            }
+        },
+
         resume: function () {
             var key;
             for (key in this.modules) {
                 if (this.modules.hasOwnProperty(key)) {
-                    this.modules[key].resume();
+                    this.modules[key].attach();
+                    this.modules[key].calculate();
                 }
             }
         },
@@ -123,7 +148,7 @@ define(['./class'], function (Class) {
             var key;
             for (key in this.modules) {
                 if (this.modules.hasOwnProperty(key)) {
-                    this.modules[key].pause();
+                    this.modules[key].detach();
                 }
             }
         }

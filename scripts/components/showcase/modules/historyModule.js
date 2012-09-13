@@ -35,7 +35,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 this._super();
             },
 
-            resume: function () {
+            attach: function () {
                 var that = this;
 
                 methods.attachHistoryAPI(function (attributes) {
@@ -45,7 +45,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 this._super();
             },
 
-            pause: function () {
+            detach: function () {
                 methods.detachHistoryAPI();
 
                 this._super();
