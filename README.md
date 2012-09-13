@@ -17,6 +17,9 @@ This method resumes the mediator after being stopped.
 
     supermediator:init
 This method initializes the component mediator, attaches any config variables and sets up its child modules ready for execution.
+    
+    supermediator:updateConfig
+This method updates the mediator config. If the modules attached to the mediator have a method called updateConfig the module method will also be executed
 
     supermediator:addModules
 This method adds modules to the mediator, it should be executed by the mediator:init method before calling this._super()
@@ -30,11 +33,17 @@ This method executes the attached module stop methods
     module:init
 This method initializes the module. The method should contain setup code that needs to be executed on module load. This function is only executed once, any code that must run whenever the module is activated should be in module:resume.
 
-    module:resume
-This method resume the module after being stopped. This method is also executed automatically after the superfacade:init method. Calls to module methods that attach event bindings should be here alongside any setup code.
+    module:attach
+This method attaches any module even listeners. This method is executed automatically after the superfacade:init method.
 
-    module:stop
-This method stops the module from executing. Calls to module methods that detach event bindings should be here alongside any cleanup code.
+    module:detach
+This method detaches the module from executing. Calls to module methods that detach event bindings should be here alongside any cleanup code.
+
+    module:calculate
+This method is used to perfm and calculations necessary for setting up the module. This method is run automatically after superfacade:init. It should also be run after updating the module config.
+
+    module:updateConfig
+Optional module method for updating the module configution beyond the initial config provided during the module:init method.
 
     superfacade:init
 Currently this method only executes the module:resume method
