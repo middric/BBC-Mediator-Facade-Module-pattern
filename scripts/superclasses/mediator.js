@@ -68,6 +68,11 @@ define(['./class'], function (Class) {
             var name = Module.toString().match(/^function (\w+)/)[1],
                 listener = function (listenerMethod, signalObject) {
                     var args = Array.prototype.slice.call(arguments, 2);
+                    if (this.config.Mediator.debug) {
+                        console.markTimeline('Signal: ' + listenerMethod);
+                        console.log('Module signal fired - ' + listenerMethod, args);
+                    }
+
                     // Call mediator listener with original arguments
                     this[listenerMethod].apply(this, args);
 
