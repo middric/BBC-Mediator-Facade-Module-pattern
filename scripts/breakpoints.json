@@ -1,19 +1,19 @@
 [
     {
-        "label": "handheld",
+        "label": "one",
         "enter": 0,
-        "exit": 767
+        "exit": 599
     },{
-        "label": "tablet",
-        "enter": 768,
-        "exit": 979
+        "label": "two",
+        "enter": 600,
+        "exit": 769
     },{
-        "label": "laptop",
-        "enter": 980,
-        "exit": 1199
+        "label": "three",
+        "enter": 770,
+        "exit": 1023
     },{
-        "label": "desktop",
-        "enter": 1200,
+        "label": "four",
+        "enter": 1024,
         "exit": 10000
     }
 ]
