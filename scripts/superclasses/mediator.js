@@ -18,10 +18,10 @@ define(['./class'], function (Class) {
             var i = this.moduleConstructors.length - 1;
 
             this.updateConfig(settings);
-            
+
             // Run module constructors
             for (; i >= 0; i--) {
-                this.ready(this.moduleConstructors[i]);
+                this.ready(this.moduleConstructors.shift());
             }
         },
 
@@ -140,7 +140,7 @@ define(['./class'], function (Class) {
                 }
             }
         },
-        
+
         /**
          * Stop the mediator and associated modules
          */
