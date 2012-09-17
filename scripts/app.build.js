@@ -23,7 +23,7 @@
             name: "pageMediator",
             exclude: [
                 'lib/require/require',
-                'components/showcase/mediator'
+		'components/showcase/showcaseMediator'
             ]
         }
     ],
