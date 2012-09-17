@@ -1,10 +1,11 @@
 define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade) {
     return function Imagery(settings, mediatorConfig) {
-        var cache = {
-                // Flag to store evaluating state so we don't run multiple times
-                _evaluating: false
-            },
+        var cache = {},
             params = {
+                // Flag to store evaluating state so we don't run multiple times
+                _evaluating: false,
+                // Params that could be overridden by config.json - here because
+                // if they weren't defined, the script would error
                 id: "responsive-placeholder",
                 selector: ".r-image"
             },
@@ -127,15 +128,15 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
              */
             evaluate: function () {
                 // Ensure only one evaluate function is run at a time
-                if (!cache._evaluating) {
-                    cache._evaluating = true;
+                if (!params._evaluating) {
+                    params._evaluating = true;
 
                     // No cached selector used, as new images could been added to the page
                     $(params.selector).each(function () {
                         methods.render(this);
                     });
 
-                    cache._evaluating = false;
+                    params._evaluating = false;
 
                     // Tell the mediator we're done
                     this.signals.Evaluated.dispatch();
