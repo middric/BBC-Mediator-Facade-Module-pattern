@@ -2,10 +2,16 @@ require([
     'jquery',
     'jRespond',
     'json!breakpoints.json',
-    'components/showcase/showcaseMediator'
-], function ($, jRespond, breakpointsConfig, Showcase) {
+    'components/showcase/showcaseMediator',
+    'components/responsiveimages/responsiveimagesMediator'
+], function ($, jRespond, breakpointsConfig, Showcase, ResponsiveImages) {
+    // Set up JRespond with our configuration
+    jRespond = jRespond(breakpointsConfig);
+
+    // Initialise Showcase
     var sc = new Showcase();
 
+    // Once the Showcase has loaded, add some extra functionality
     sc.signals.Loaded.addOnce(function () {
         var bpChange = function () {
             var config = {
@@ -23,8 +29,7 @@ require([
 
         // Ghetto removal of loader class
         document.getElementById('stream').className = '';
-    
-        jRespond = jRespond(breakpointsConfig);
+
         jRespond.addFunc({
             breakpoint: ['one', 'two'],
             enter: function () {
@@ -39,6 +44,18 @@ require([
             breakpoint: 'four',
             enter: bpChange
         });
-
     });
+
+    // Initialise Responsive Images component
+    var responsiveImages = new ResponsiveImages();
+
+    // Set up so we run whenever a breakpoint changes
+    jRespond.addFunc({
+        breakpoint: '*',
+        enter: function () {
+            console.log('bp change');
+            responsiveImages.run();
+        }
+    });
+
 });

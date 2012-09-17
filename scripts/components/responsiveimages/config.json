@@ -1,0 +1,19 @@
+{
+    "Mediator": {
+        "debug": true
+    },
+
+    "Imagery": {
+        "patterns": [
+            {
+
+                "regex": "^(.*\/)([0-9]+)(x)([0-9]+)(\/.*)$",
+
+                "variables": {
+                    "width": 2,
+                    "height": 4
+                }
+            }
+        ]
+    }
+}
