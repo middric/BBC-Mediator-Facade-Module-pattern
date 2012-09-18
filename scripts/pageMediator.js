@@ -17,7 +17,7 @@ require([
 
         var bpChange = function () {
             var config = {
-                Mediator: {
+                Global: {
                     pageWidth: $('.stream:first').width()
                 },
                 Carousel: {

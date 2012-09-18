@@ -21,7 +21,7 @@ define([
             this.addModules(Pagination, Filters, History);
 
             // Load any variable dependencies
-            require(['./modules/' + this.config.Mediator.showcaseType], function (module) {
+            require(['./modules/' + this.config.Global.showcaseType], function (module) {
                 that.addModule(module);
                 that.ready(module);
 

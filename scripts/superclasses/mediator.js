@@ -21,7 +21,7 @@ define(['./class'], function (Class) {
 
             for (module in this.modules) {
                 if (typeof this.modules[module].updateConfig === 'function') {
-                    this.modules[module].updateConfig(this.config[module], this.config.Mediator);
+                    this.modules[module].updateConfig(this.config[module], this.config.Global);
                 }
             }
         },
@@ -94,7 +94,7 @@ define(['./class'], function (Class) {
             var name = Module.toString().match(/^function (\w+)/)[1],
                 listener = function (listenerMethod, signalObject) {
                     var args = Array.prototype.slice.call(arguments, 2);
-                    if (this.config.Mediator.debug) {
+                    if (this.config.Global.debug) {
                         console.markTimeline('Signal: ' + listenerMethod);
                         console.log('Module signal fired - ' + listenerMethod, args);
                     }
@@ -108,7 +108,7 @@ define(['./class'], function (Class) {
                 moduleInstance, signal, method, binding;
 
             if (name) {
-                moduleInstance = new (new Module(this.config[name], this.config.Mediator))();
+                moduleInstance = new (new Module(this.config[name], this.config.Global))();
                 this.modules[name] = moduleInstance;
 
                 // Set up signals
@@ -120,14 +120,14 @@ define(['./class'], function (Class) {
                             binding = moduleInstance.signals[signal].add(listener, this, Infinity);
                             binding.params = [method, moduleInstance.signals[signal]];
                         } else {
-                            if (this.config.Mediator.debug) {
+                            if (this.config.Global.debug) {
                                 console.warn('Module signal has no corresponding listener method.', name, signal, method);
                             }
                         }
                     }
                 }
             } else {
-                if (this.config.Mediator.debug) {
+                if (this.config.Global.debug) {
                     console.warn('Module name not defined.', module);
                 }
             }

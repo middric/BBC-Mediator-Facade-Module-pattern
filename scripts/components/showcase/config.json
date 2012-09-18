@@ -1,5 +1,5 @@
 {
-    "Mediator": {
+    "Global": {
         "debug": true,
         "showcaseType": "carouselModule",
         "numFilters": 2,
