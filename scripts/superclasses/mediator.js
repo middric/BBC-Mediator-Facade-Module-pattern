@@ -52,12 +52,16 @@ define(['./class'], function (Class) {
         addModule: function (Module) {
             var err = false;
             if (!this.moduleConstructors) {
-                console.error('Component mediator missing vital parameter, moduleConstructor: []');
+                if (this.config.Global.debug) {
+                    console.error('Component mediator missing vital parameter, moduleConstructor: []');
+                }
                 this.moduleConstructors = [];
                 err = true;
             }
             if (!this.modules) {
-                console.error('Component mediator missing vital parameter, modules: {}');
+                if (this.config.Global.debug) {
+                    console.error('Component mediator missing vital parameter, modules: {}');
+                }
                 this.modules = {};
                 err = true;
             }
