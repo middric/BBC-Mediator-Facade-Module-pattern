@@ -1,6 +1,10 @@
 define(['./class'], function (Class) {
     var Mediator = Class.extend({
 
+        /**
+         * Initialise the mediator. Sets up config variables
+         * @param  {Object} settings Config settings
+         */
         init: function (settings) {
             this.updateConfig(settings);
         },
@@ -16,16 +20,22 @@ define(['./class'], function (Class) {
             this.config = this._deepExtend(this.config, settings);
 
             for (module in this.modules) {
-                if (this.modules[module].updateConfig && typeof this.modules[module].updateConfig === 'function') {
+                if (typeof this.modules[module].updateConfig === 'function') {
                     this.modules[module].updateConfig(this.config[module], this.config.Mediator);
                 }
             }
         },
 
+        /**
+         * Deep extend utility method. Deep extends destination object with source object
+         * @param   {Object} destination Object to extend on to
+         * @param   {Object} source      Object to extend
+         * @return  {Object}             Merged object
+         * @private
+         */
         _deepExtend: function (destination, source) {
             for (var property in source) {
-                if (source[property] && source[property].constructor &&
-                    source[property].constructor === Object) {
+                if (source[property] && source[property].constructor && source[property].constructor === Object) {
                     destination[property] = destination[property] || {};
                     arguments.callee(destination[property], source[property]);
                 } else {
@@ -123,6 +133,9 @@ define(['./class'], function (Class) {
             }
         },
 
+        /**
+         * Run the component modules setup methods
+         */
         setup: function () {
             var key;
             for (key in this.modules) {
@@ -132,6 +145,10 @@ define(['./class'], function (Class) {
             }
         },
 
+        /**
+         * Run the component modules attach and setup methods. This should be fired
+         * when restarting a component after it has been paused
+         */
         resume: function () {
             var key;
             for (key in this.modules) {
@@ -143,7 +160,7 @@ define(['./class'], function (Class) {
         },
 
         /**
-         * Stop the mediator and associated modules
+         * Run the component modules detach methods.
          */
         pause: function () {
             var key;
