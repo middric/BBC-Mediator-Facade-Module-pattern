@@ -9,6 +9,8 @@ define([
     var mediator = Mediator.extend({
 
         config: config,
+        modules: {},
+        moduleConstructors: [],
 
         init: function (settings) {
             var that = this, key;

@@ -1,18 +1,5 @@
 define(['./class'], function (Class) {
     var Mediator = Class.extend({
-        config: {},
-
-        /**
-         * Modules this component is reliant on
-         * @type {Array}
-         */
-        moduleConstructors: [],
-
-        /**
-         * Loaded facade objects
-         * @type {Object}
-         */
-        modules: {},
 
         init: function (settings) {
             var i = this.moduleConstructors.length - 1;
@@ -21,7 +8,7 @@ define(['./class'], function (Class) {
 
             // Run module constructors
             for (; i >= 0; i--) {
-                this.ready(this.moduleConstructors.shift());
+                this.ready(this.moduleConstructors[i]);
             }
         },
 

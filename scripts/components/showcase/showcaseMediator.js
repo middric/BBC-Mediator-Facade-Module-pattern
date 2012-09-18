@@ -12,6 +12,8 @@ define([
 
         config: config,
         historyPopped: false,
+        modules: {},
+        moduleConstructors: [],
 
         init: function (settings) {
             var that = this, key;
