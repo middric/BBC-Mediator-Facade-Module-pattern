@@ -26,8 +26,6 @@ define([
                 that.addModule(module);
                 that.ready(module);
 
-                //that.modules.Carousel.moveToFilter(0, 0);
-
                 // After carousel has loaded we can dispatch the loaded signal
                 that.signals.Loaded.dispatch();
             });

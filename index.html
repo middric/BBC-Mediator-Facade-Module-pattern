@@ -1656,6 +1656,10 @@
         }
     });
 
+    // Shim console
+    var f = function(){};
+    window.console = window.console || {log: f, warning: f, error: f, markTimeline: f};
+
     require(['pageMediator']);
 </script>
 <style>
