@@ -47,7 +47,21 @@ define(['./class'], function (Class) {
          * @param {Function} Module A module constructor
          */
         addModule: function (Module) {
-            this.moduleConstructors.push(Module);
+            var err = false;
+            if (!this.moduleConstructors) {
+                console.error('Component mediator missing vital parameter, moduleConstructor: []');
+                this.moduleConstructors = [];
+                err = true;
+            }
+            if (!this.modules) {
+                console.error('Component mediator missing vital parameter, modules: {}');
+                this.modules = {};
+                err = true;
+            }
+
+            if (!err) {
+                this.moduleConstructors.push(Module);
+            }
         },
 
         /**
