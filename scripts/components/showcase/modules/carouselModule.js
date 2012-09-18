@@ -12,7 +12,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 removePlaceholders: function () {
                     cache.first.remove();
                     cache.last.remove();
-                    cache.innerContainer.width(cache.innerContainer.width() - (mediatorConfig.pageWidth * 4));
+                    cache.innerContainer.width('auto');
 
                     cache.container.scrollLeft(cache.container.scrollLeft() - (mediatorConfig.pageWidth * 2));
                 },
