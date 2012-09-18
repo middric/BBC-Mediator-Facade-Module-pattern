@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tests</title>
+    <link rel="stylesheet" type="text/css" href="/scripts/lib/jasmine/jasmine.css">
+
+    <script type="text/javascript" src="/scripts/lib/jasmine/jasmine.js"></script>
+    <script type="text/javascript" src="/scripts/lib/jasmine/jasmine-html.js"></script>
+    <script type="text/javascript" src="/scripts/lib/require/require.js"></script>
+    <script>
+    require.config({
+        baseUrl: 'scripts/components/showcase',
+        //baseUrl: 'built',
+        paths: {
+            text: '../../lib/require/plugins/text',
+            json: '../../lib/require/plugins/json',
+            jquery: '../../lib/jquery',
+            signals: '../../lib/signals',
+            jRespond: '../../lib/jRespond',
+            superclasses: '../../superclasses/'
+        }
+    });
+
+    require(['jquery', 'tests/showcase'], function($) {   
+        $(function() {
+            jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+            jasmine.getEnv().execute();
+        });
+    });
+    </script>
+</head>
+<body></body>
+</html>
