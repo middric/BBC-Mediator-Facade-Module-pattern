@@ -2,14 +2,7 @@ define(['./class'], function (Class) {
     var Mediator = Class.extend({
 
         init: function (settings) {
-            var i = this.moduleConstructors.length - 1;
-
             this.updateConfig(settings);
-
-            // Run module constructors
-            for (; i >= 0; i--) {
-                this.ready(this.moduleConstructors[i]);
-            }
         },
 
         /**
@@ -68,8 +61,15 @@ define(['./class'], function (Class) {
          * Add an arbitrary number of modules
          */
         addModules: function () {
-            for (var i = arguments.length - 1; i >= 0; i--) {
+            var i;
+
+            for (i = arguments.length - 1; i >= 0; i--) {
                 this.addModule(arguments[i]);
+            }
+
+            // Run module constructors
+            for (i = this.moduleConstructors.length - 1; i >= 0; i--) {
+                this.ready(this.moduleConstructors[i]);
             }
         },
 

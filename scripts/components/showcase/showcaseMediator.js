@@ -17,9 +17,8 @@ define([
 
         init: function (settings) {
             var that = this, key;
-            this.addModules(Pagination, Filters, History);
 
-            this._super(settings);
+            this.addModules(Pagination, Filters, History);
 
             // Load any variable dependencies
             require(['./modules/' + this.config.Mediator.showcaseType], function (module) {
@@ -29,6 +28,8 @@ define([
                 // After carousel has loaded we can dispatch the loaded signal
                 that.signals.Loaded.dispatch();
             });
+
+            this._super(settings);
         },
 
         resume: function () {
