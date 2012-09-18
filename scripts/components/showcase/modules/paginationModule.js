@@ -84,7 +84,6 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                 });
 
                 methods.attachKeyboardListener(function (e) {
-                    console.log('fired')
                     var id;
 
                     if (!that._fired) {
