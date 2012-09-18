@@ -123,11 +123,11 @@ define(['./class'], function (Class) {
             }
         },
 
-        calculate: function () {
+        setup: function () {
             var key;
             for (key in this.modules) {
                 if (this.modules.hasOwnProperty(key)) {
-                    this.modules[key].calculate();
+                    this.modules[key].setup();
                 }
             }
         },
@@ -137,7 +137,7 @@ define(['./class'], function (Class) {
             for (key in this.modules) {
                 if (this.modules.hasOwnProperty(key)) {
                     this.modules[key].attach();
-                    this.modules[key].calculate();
+                    this.modules[key].setup();
                 }
             }
         },

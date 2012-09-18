@@ -2,11 +2,9 @@ define(['./class'], function (Class) {
     var Facade = Class.extend({
         init: function () {
             this.attach();
-            this.calculate();
+            this.setup();
         },
         setup: function () {},
-
-        calculate: function () {},
 
         attach: function () {
             var key;

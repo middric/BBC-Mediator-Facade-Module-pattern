@@ -26,7 +26,7 @@ require([
             };
 
             sc.updateConfig(config);
-            sc.calculate();
+            sc.setup();
         };
 
         // Ghetto removal of loader class

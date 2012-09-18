@@ -115,7 +115,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 this._super();
             },
-            calculate: function () {
+            setup: function () {
                 this._super();
                 
                 methods.addPlaceholders();
