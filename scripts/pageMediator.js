@@ -9,10 +9,12 @@ require([
     jRespond = jRespond(breakpointsConfig);
 
     // Initialise Showcase
-    var sc = new Showcase();
+    var sc = new Showcase(),
+        responsiveImages;
 
     // Once the Showcase has loaded, add some extra functionality
     sc.signals.Loaded.addOnce(function () {
+
         var bpChange = function () {
             var config = {
                 Mediator: {
@@ -34,6 +36,9 @@ require([
             breakpoint: ['one', 'two'],
             enter: function () {
                 sc.pause();
+            },
+            exit: function () {
+                sc.resume();
             }
         });
         jRespond.addFunc({
@@ -46,14 +51,12 @@ require([
         });
     });
 
-    // Initialise Responsive Images component
-    var responsiveImages = new ResponsiveImages();
+    responsiveImages = new ResponsiveImages();
 
     // Set up so we run whenever a breakpoint changes
     jRespond.addFunc({
         breakpoint: '*',
         enter: function () {
-            console.log('bp change');
             responsiveImages.run();
         }
     });
