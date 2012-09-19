@@ -82,5 +82,83 @@ define(['jquery', 'showcaseMediator', 'json!config.json'], function ($, Showcase
                 );
             });
         });
+
+        describe("Pagination", function () {
+            var module,
+                signalTest = function (err, signal, method) {
+                var fired = false;
+                signal.addOnce(function () { fired = true; });
+                method.apply(module, Array.prototype.slice.call(arguments, 3));
+
+                waitsFor(function () { return fired; }, err, 10000);
+                runs(function () { expect(fired).toEqual(true); });
+            };
+
+            it("has loaded", function () {
+                waitsFor(
+                    function () {
+                        module = sc.modules.Pagination;
+                        return module;
+                    },
+                    "Pagination module never loads",
+                    10000
+                );
+                runs(function () {
+                    expect(module).toBeTruthy();
+                });
+            });
+        });
+
+        describe("Filters", function () {
+            var module,
+                signalTest = function (err, signal, method) {
+                var fired = false;
+                signal.addOnce(function () { fired = true; });
+                method.apply(module, Array.prototype.slice.call(arguments, 3));
+
+                waitsFor(function () { return fired; }, err, 10000);
+                runs(function () { expect(fired).toEqual(true); });
+            };
+
+            it("has loaded", function () {
+                waitsFor(
+                    function () {
+                        module = sc.modules.Filters;
+                        return module;
+                    },
+                    "Filters module never loads",
+                    10000
+                );
+                runs(function () {
+                    expect(module).toBeTruthy();
+                });
+            });
+        });
+
+        describe("History", function () {
+            var module,
+                signalTest = function (err, signal, method) {
+                var fired = false;
+                signal.addOnce(function () { fired = true; });
+                method.apply(module, Array.prototype.slice.call(arguments, 3));
+
+                waitsFor(function () { return fired; }, err, 10000);
+                runs(function () { expect(fired).toEqual(true); });
+            };
+
+            it("has loaded", function () {
+                waitsFor(
+                    function () {
+                        module = sc.modules.History;
+                        return module;
+                    },
+                    "History module never loads",
+                    10000
+                );
+                runs(function () {
+                    expect(module).toBeTruthy();
+                });
+            });
+        });
     });
 });
