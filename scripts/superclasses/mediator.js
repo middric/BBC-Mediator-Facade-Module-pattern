@@ -55,20 +55,21 @@ define(['./class'], function (Class) {
                 if (this.config.Global.debug) {
                     console.error('Component mediator missing vital parameter, moduleConstructor: []');
                 }
-                this.moduleConstructors = [];
                 err = true;
             }
             if (!this.modules) {
                 if (this.config.Global.debug) {
                     console.error('Component mediator missing vital parameter, modules: {}');
                 }
-                this.modules = {};
                 err = true;
             }
 
-            if (!err) {
-                this.moduleConstructors.push(Module);
+            if (err) {
+                return false;
             }
+            
+            this.moduleConstructors.push(Module);
+            return true;
         },
 
         /**
@@ -78,7 +79,9 @@ define(['./class'], function (Class) {
             var i;
 
             for (i = arguments.length - 1; i >= 0; i--) {
-                this.addModule(arguments[i]);
+                if (!this.addModule(arguments[i])) {
+                    break;
+                }
             }
 
             // Run module constructors
@@ -122,7 +125,7 @@ define(['./class'], function (Class) {
                 for (signal in moduleInstance.signals) {
                     if (moduleInstance.signals.hasOwnProperty(signal)) {
                         method = 'on' + name + signal;
-                        if (this[method] && typeof this[method] === 'function') {
+                        if (typeof this[method] === 'function') {
                             // Set priority to Infinity so that the mediator listeners execute first
                             binding = moduleInstance.signals[signal].add(listener, this, Infinity);
                             binding.params = [method, moduleInstance.signals[signal]];
