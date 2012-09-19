@@ -20,8 +20,8 @@ define(['./class'], function (Class) {
             this.config = this._deepExtend(this.config, settings);
 
             for (module in this.modules) {
-                if (typeof this.modules[module].updateConfig === 'function') {
-                    this.modules[module].updateConfig(this.config[module], this.config.Global);
+                if (typeof this.modules[module].setConfig === 'function') {
+                    this.modules[module].setConfig(this.config[module], this.config.Global);
                 }
             }
         },
