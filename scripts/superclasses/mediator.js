@@ -107,7 +107,9 @@ define(['./class'], function (Class) {
                     this[listenerMethod].apply(this, args);
 
                     // Stop event propogation in order to enforce the mediator/facade/module pattern
-                    signalObject.halt();
+                    if (!this.config.testMode) {
+                        signalObject.halt();
+                    }
                 },
                 moduleInstance, signal, method, binding;
 
