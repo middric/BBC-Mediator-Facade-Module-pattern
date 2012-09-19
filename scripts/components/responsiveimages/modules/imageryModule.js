@@ -48,7 +48,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                         src = el.getAttribute('data-ip-src') || false,
                         alt = el.getAttribute('data-ip-alt') || '',
                         variables = [],
-                        i, image, j, matches, pattern, url;
+                        i, dimensions, matches, pattern, url;
 
                     // No image source? Nothing to do
                     if (!src) {
@@ -78,7 +78,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                     url = matches.join('');
 
                     // Find the IMG tag, and set the source...
-                    for (var i in el.childNodes) {
+                    for (i in el.childNodes) {
                         if (el.childNodes[i].nodeName === "IMG") {
                             el.childNodes[i].src = url;
                             return;
@@ -95,14 +95,13 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
                  * @return {mixed}     The pattern object, or false
                  */
                 validateSrc: function (src) {
-                    var pattern, i = 0, re;
+                    var pattern, re;
                     for (pattern in params.patterns) {
                         if (params.patterns.hasOwnProperty(pattern)) {
                             re = new RegExp(params.patterns[pattern].regex);
                             if (!!src.match(re)) {
-                                return params.patterns[i];
+                                return params.patterns[pattern];
                             }
-                            i++;
                         }
                     }
 
