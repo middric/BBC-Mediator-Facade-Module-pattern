@@ -95,7 +95,8 @@ define(['./class'], function (Class) {
          * @param  {Function} Module Module constructor
          */
         ready: function (Module) {
-            var name = Module.toString().match(/^function (\w+)/)[1],
+            var matches = Module.toString().match(/^function (\w+)/),
+                name = (matches) ? matches[1] : '',
                 listener = function (listenerMethod, signalObject) {
                     var args = Array.prototype.slice.call(arguments, 2);
                     if (this.config.Global.debug) {
@@ -134,7 +135,7 @@ define(['./class'], function (Class) {
                 }
             } else {
                 if (this.config.Global.debug) {
-                    console.warn('Module name not defined.', module);
+                    console.warn('Module name not defined.', Module);
                 }
             }
         },
