@@ -25,7 +25,7 @@ require([
                 }
             };
 
-            sc.updateConfig(config);
+            sc.setConfig(config);
             sc.setup();
         };
 

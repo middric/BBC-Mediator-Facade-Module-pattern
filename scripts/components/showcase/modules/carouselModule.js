@@ -126,7 +126,7 @@ define(['jquery', 'signals', 'superclasses/facade'], function ($, Signal, Facade
 
                 methods.removePlaceholders();
             },
-            updateConfig: function (settings, mConfig) {
+            setConfig: function (settings, mConfig) {
                 mediatorConfig = mConfig;
 
                 params = this.merge(params, settings);

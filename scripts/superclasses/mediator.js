@@ -6,15 +6,15 @@ define(['./class'], function (Class) {
          * @param  {Object} settings Config settings
          */
         init: function (settings) {
-            this.updateConfig(settings);
+            this.setConfig(settings);
         },
 
         /**
-         * Update facade configuration
+         * Set mediator configuration and drill down to facade configuration
          * @param  {Object} settings
          */
-        updateConfig: function (settings) {
-            var module, name;
+        setConfig: function (settings) {
+            var module;
 
             // Merge settings and default config
             this.config = this._deepExtend(this.config, settings);
