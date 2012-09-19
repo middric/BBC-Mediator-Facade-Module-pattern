@@ -21,9 +21,7 @@ define(['jquery', 'showcaseMediator', 'json!config.json'], function ($, Showcase
 
         it("has fired the Loaded signal", function () {
             waitsFor(
-                function () {
-                    return loaded;
-                },
+                function () { return loaded; },
                 "Showcase never completed loading or never fired the Loaded signal",
                 10000
             );
@@ -34,7 +32,15 @@ define(['jquery', 'showcaseMediator', 'json!config.json'], function ($, Showcase
     });
 
     describe("Carousel", function () {
-        var module;
+        var module,
+            signalTest = function (err, signal, method) {
+            var fired = false;
+            signal.addOnce(function () { fired = true; });
+            method.apply(module, Array.prototype.slice.call(arguments, 3));
+
+            waitsFor(function () { return fired; }, err, 10000);
+            runs(function () { expect(fired).toEqual(true); });
+        };
 
         it("has loaded", function () {
             var loaded = false;
@@ -53,60 +59,30 @@ define(['jquery', 'showcaseMediator', 'json!config.json'], function ($, Showcase
         });
 
         it("has fired the 'Moved' signal on moveInDirection", function () {
-            var fired = false;
-            module.signals.Moved.addOnce(function () {
-                fired = true;
-            });
-            module.moveInDirection('scroll-right');
-
-            waitsFor(
-                function () {
-                    return fired;
-                },
+            signalTest(
                 "Carousel module does not fire 'Moved' signal",
-                10000
+                module.signals.Moved,
+                module.moveInDirection,
+                'scroll-right'
             );
-            runs(function () {
-                expect(fired).toEqual(true);
-            });
         });
 
         it("has fired the 'Moved' signal on moveToPage", function () {
-            var fired = false;
-            module.signals.Moved.addOnce(function () {
-                fired = true;
-            });
-            module.moveToPage(1);
-
-            waitsFor(
-                function () {
-                    return fired;
-                },
+            signalTest(
                 "Carousel module does not fire 'Moved' signal",
-                10000
+                module.signals.Moved,
+                module.moveToPage,
+                1
             );
-            runs(function () {
-                expect(fired).toEqual(true);
-            });
         });
 
         it("has fired the 'MovedToFilter' signal on moveToFilter", function () {
-            var fired = false;
-            module.signals.MovedToFilter.addOnce(function () {
-                fired = true;
-            });
-            module.moveToFilter(0);
-
-            waitsFor(
-                function () {
-                    return fired;
-                },
+            signalTest(
                 "Carousel module does not fire 'MovedToFilter' signal",
-                10000
+                module.signals.MovedToFilter,
+                module.moveToFilter,
+                0
             );
-            runs(function () {
-                expect(fired).toEqual(true);
-            });
         });
     });
 });
