@@ -1,6 +1,6 @@
 {
     "Global": {
-        "debug": true,
+        "debug": false,
         "showcaseType": "carouselModule",
         "numFilters": 2,
         "numPages": 6,

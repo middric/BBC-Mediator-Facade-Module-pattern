@@ -9,7 +9,7 @@ require([
     jRespond = jRespond(breakpointsConfig);
 
     // Initialise Showcase
-    var sc = new Showcase(),
+    var sc = new Showcase({Global: {debug: true}}),
         responsiveImages;
 
     // Once the Showcase has loaded, add some extra functionality
@@ -51,7 +51,7 @@ require([
         });
     });
 
-    responsiveImages = new ResponsiveImages();
+    responsiveImages = new ResponsiveImages({Global: {debug: true}});
 
     // Set up so we run whenever a breakpoint changes
     jRespond.addFunc({
