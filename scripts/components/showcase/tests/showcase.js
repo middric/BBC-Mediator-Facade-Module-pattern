@@ -26,63 +26,61 @@ define(['jquery', 'showcaseMediator', 'json!config.json'], function ($, Showcase
                 10000
             );
             runs(function () {
-                expect(loaded).toEqual(true);
-            });
-        });
-    });
-
-    describe("Carousel", function () {
-        var module,
-            signalTest = function (err, signal, method) {
-            var fired = false;
-            signal.addOnce(function () { fired = true; });
-            method.apply(module, Array.prototype.slice.call(arguments, 3));
-
-            waitsFor(function () { return fired; }, err, 10000);
-            runs(function () { expect(fired).toEqual(true); });
-        };
-
-        it("has loaded", function () {
-            var loaded = false;
-            waitsFor(
-                function () {
-                    module = sc.modules.Carousel;
-                    loaded = true;
-                    return module;
-                },
-                "Carousel module never loads",
-                10000
-            );
-            runs(function () {
-                expect(loaded).toEqual(true);
+                expect(loaded).toBeTruthy();
             });
         });
 
-        it("has fired the 'Moved' signal on moveInDirection", function () {
-            signalTest(
-                "Carousel module does not fire 'Moved' signal",
-                module.signals.Moved,
-                module.moveInDirection,
-                'scroll-right'
-            );
-        });
+        describe("Carousel", function () {
+            var module,
+                signalTest = function (err, signal, method) {
+                var fired = false;
+                signal.addOnce(function () { fired = true; });
+                method.apply(module, Array.prototype.slice.call(arguments, 3));
 
-        it("has fired the 'Moved' signal on moveToPage", function () {
-            signalTest(
-                "Carousel module does not fire 'Moved' signal",
-                module.signals.Moved,
-                module.moveToPage,
-                1
-            );
-        });
+                waitsFor(function () { return fired; }, err, 10000);
+                runs(function () { expect(fired).toEqual(true); });
+            };
 
-        it("has fired the 'MovedToFilter' signal on moveToFilter", function () {
-            signalTest(
-                "Carousel module does not fire 'MovedToFilter' signal",
-                module.signals.MovedToFilter,
-                module.moveToFilter,
-                0
-            );
+            it("has loaded", function () {
+                waitsFor(
+                    function () {
+                        module = sc.modules.Carousel;
+                        return module;
+                    },
+                    "Carousel module never loads",
+                    10000
+                );
+                runs(function () {
+                    expect(module).toBeTruthy();
+                });
+            });
+
+            it("has fired the 'Moved' signal on moveInDirection", function () {
+                signalTest(
+                    "Carousel module does not fire 'Moved' signal",
+                    module.signals.Moved,
+                    module.moveInDirection,
+                    'scroll-right'
+                );
+            });
+
+            it("has fired the 'Moved' signal on moveToPage", function () {
+                signalTest(
+                    "Carousel module does not fire 'Moved' signal",
+                    module.signals.Moved,
+                    module.moveToPage,
+                    1
+                );
+            });
+
+            it("has fired the 'MovedToFilter' signal on moveToFilter", function () {
+                signalTest(
+                    "Carousel module does not fire 'MovedToFilter' signal",
+                    module.signals.MovedToFilter,
+                    module.moveToFilter,
+                    0
+                );
+            });
         });
     });
 });
